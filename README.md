@@ -1,4 +1,4 @@
-SkraPunk
-========
+Skra Punk
+=========
 
 Web Magazine
