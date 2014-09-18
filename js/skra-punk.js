@@ -9,14 +9,16 @@ angular.module('skra-punk', [
     'ngRoute',
     'ngAnimate',
     'ui.bootstrap',
-	'ngLoadScript',
+    'ngLoadScript',
+    'angulartics',
+    'angulartics.google.analytics',
     'home',
     'categories',
     'article',
     'tags'
 ])
-    .config(['ezfbProvider', '$routeProvider', '$locationProvider',
-        function(ezfbProvider, $routeProvider, $locationProvider) {
+    .config(['ezfbProvider', '$routeProvider', '$locationProvider', '$analyticsProvider',
+        function(ezfbProvider, $routeProvider, $locationProvider, $analyticsProvider) {
             ezfbProvider.setInitParams({
                 appId: '296559977173451',
                 xfbml: true,
@@ -48,6 +50,7 @@ angular.module('skra-punk', [
                 .otherwise({
                     redirectTo: '/home'
                 });
+                $analyticsProvider.virtualPageView(false);
         }
     ])
     .factory('picturesqueData', ['$http',
