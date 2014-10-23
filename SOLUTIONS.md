@@ -15,3 +15,4 @@ Issues
 ###In case of hosting provider swap:
 - DigitalOcean -> Hosting provider
 - PapakiGr -> Domain Name
+- Github Education
