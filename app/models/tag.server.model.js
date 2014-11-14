@@ -20,6 +20,13 @@ var TagSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    roles: {
+        type: [{
+            type: String,
+            enum: ['tag', 'category', 'column']
+        }],
+        default: ['tag']
+    },
     user: {
         type: Schema.ObjectId,
         ref: 'User'
