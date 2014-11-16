@@ -25,6 +25,11 @@ var ArticleSchema = new Schema({
         default: '',
         trim: true
     },
+    summary: {
+        type: String,
+        default: '',
+        trim: true
+    },
     img: {
         data: Buffer,
         contentType: String
