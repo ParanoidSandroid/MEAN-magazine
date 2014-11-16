@@ -25,6 +25,10 @@ var ArticleSchema = new Schema({
         default: '',
         trim: true
     },
+    img: {
+        data: Buffer,
+        contentType: String
+    },
     tags: [{
         type: Schema.ObjectId,
         ref: 'Tag'
