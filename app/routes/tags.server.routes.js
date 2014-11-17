@@ -11,8 +11,8 @@ module.exports = function(app) {
 
     app.route('/tags/:tagId')
         .get(tags.read)
-        .put(users.requiresLogin, tags.hasAuthorization, tags.update)
-        .delete(users.requiresLogin, tags.hasAuthorization, tags.delete);
+        .put(users.requiresLogin, tags.update)
+        .delete(users.requiresLogin, tags.delete);
 
     // Finish by binding the Tag middleware
     app.param('tagId', tags.tagByID);
