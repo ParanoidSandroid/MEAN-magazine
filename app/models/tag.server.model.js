@@ -26,10 +26,6 @@ var TagSchema = new Schema({
             enum: ['tag', 'category', 'column']
         }],
         default: ['tag']
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref: 'User'
     }
 });
 
