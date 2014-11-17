@@ -36,7 +36,8 @@ var ArticleSchema = new Schema({
     },
     tags: [{
         type: Schema.ObjectId,
-        ref: 'Tag'
+        ref: 'Tag',
+        default: [{}]
     }],
     user: {
         type: Schema.ObjectId,

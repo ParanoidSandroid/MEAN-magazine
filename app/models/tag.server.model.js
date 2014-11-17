@@ -19,13 +19,6 @@ var TagSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
-    },
-    roles: {
-        type: [{
-            type: String,
-            enum: ['tag', 'category', 'column']
-        }],
-        default: ['tag']
     }
 });
 
