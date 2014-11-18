@@ -23,7 +23,7 @@ var CategorySchema = new Schema({
 	subcategories: [{
 		type: Schema.ObjectId,
 		ref: 'Tag',
-		default: [{}]
+		default: []
 	}]
 });
 
