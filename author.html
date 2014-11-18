@@ -1,0 +1,74 @@
+<section id="main">
+    <!-- Main page: left sidebar, main content, right sidebar -->
+    <section class="container-fluid">
+        <div class="row">
+            <!--  Left Sidebar -->
+            <div id="sidebar-left" class="col-md-2 visible-md visible-lg">
+                <div class="row headings">
+                    <h3 class="pict">
+                        <a href="#/tag/picturesque">Πικτουρέσκ</a>
+                    </h3>
+                </div>
+                <div class="row">
+                    <h4 class="inner-headings" ng-cloak>
+                        <a href="#/read/{{picturesque.articles[0].url}}" class="pict">{{picturesque.articles[0].title}}</a>
+                    </h4>
+                    <a href="#/read/{{picturesque.articles[0].url}}">
+                        <img class="img-renponsive" src="{{picturesque.articles[0].imgPath}}" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Author Page Content -->
+            <div id="content-article" class="col-md-8">
+                <article>
+
+                    <!-- Profile Header -->
+                    <header class="row headings">
+                        <div class="row">
+                            <div class="">
+                                <!-- Author's image -->
+                                <a ng-href="#/author/{{article.authorUrl}}">
+                                    <img class="img-responsive" width="100" height="100" src="{{article.authorImg}}">
+                                </a>
+                            </div>
+                            <!-- Author's name -->
+                            <div class="col-xs-6 text-right">Author Name</div>
+                        </div>
+
+                        <br>
+                        <div class="separator"></div>
+                    </header>
+
+                    <!-- Articles by this author -->
+                    <!-- <section class="text-left" ng-include="article.path" ng-cloak>
+                    </section> -->
+
+
+                </article>
+                </div>
+
+                <!-- Right Sidebar -->
+                <div id="sidebar-right" class="col-md-2 visible-md visible-lg">
+                    <div class="row headings">
+                        <h3>
+                            Δείτε επίσης:
+                        </h3>
+                        <div ng-repeat="relevant in relevants">
+                            <div class="side-article">
+                                <a ng-href="#/read/{{relevant.url}}">
+                                    <img class="img-responsive article-tile" ng-src="{{relevant.imgPath}}" alt="">
+                                </a>
+                                <h3 class="inner-headings"><a href="#/read/{{relevant.url}}">{{relevant.title}}</a>
+                                </h3>
+                                <h4 class="articleMeta">
+                                    <a href="#/authors/{{relevant.authorUrl}}">{{relevant.name}}</a>
+                                </h4>
+                                <p>{{relevant.summary}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+    </section>
+</section>
