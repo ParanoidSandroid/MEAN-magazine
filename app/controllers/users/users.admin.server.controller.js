@@ -10,21 +10,15 @@ var _ = require('lodash'),
     User = mongoose.model('User');
 
 /**
- * Update user details
+ * Make another user admin.
  */
-exports.update = function(req, res) {
-    // Init Variables
-    var user = req.user;
+exports.promoteToAdmin = function(req, res) {
+    var user = req.profile;
     var message = null;
 
-    // For security measurement we remove the roles from the req.body object
-    delete req.body.roles;
-
     if (user) {
-        // Merge existing user
-        user = _.extend(user, req.body);
+        user.roles = ['admin'];
         user.updated = Date.now();
-        user.displayName = user.firstName + ' ' + user.lastName;
 
         user.save(function(err) {
             if (err) {
@@ -43,14 +37,22 @@ exports.update = function(req, res) {
         });
     } else {
         res.status(400).send({
-            message: 'User is not signed in'
+            message: 'User tried to promote is not found'
         });
     }
 };
 
-/**
- * Send User
+/*
+ * Show all users.
  */
-exports.me = function(req, res) {
-    res.jsonp(req.user || null);
+exports.list = function(req, res) {
+      User.find().sort('-created').exec(function(err, users) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(users);
+        }
+    });
 };
