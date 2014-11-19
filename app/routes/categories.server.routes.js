@@ -7,7 +7,7 @@ module.exports = function(app) {
     // Categories Routes
     app.route('/categories')
         .get(categories.list)
-        .post(users.requiresLogin, categories.create);
+        .post(users.requiresLogin, users.hasAuthorization(['admin']), categories.create);
 
     app.route('/categories/:categoryId')
         .get(categories.read)

@@ -88,19 +88,23 @@ exports.list = function(req, res) {
  * Category middleware
  */
 exports.categoryByID = function(req, res, next, id) {
-    Category.findById(id).populate('user', 'displayName').exec(function(err, category) {
-        if (err) return next(err);
-        if (!category) return next(new Error('Failed to load Category ' + id));
-        req.category = category;
-        next();
-    });
+    Category.findById(id)
+        .populate('user', 'displayName')
+        .populate('subcategories')
+        .exec(function(err, category) {
+            if (err) return next(err);
+            if (!category) return next(new Error('Failed to load Category ' + id));
+            req.category = category;
+            next();
+        });
 };
 
 /**
  * Category authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-    if (req.category.user.id !== req.user.id) {
+    var isAdmin = _.intersection(req.user.roles, ['admin']).length;
+    if (!isAdmin) {
         return res.status(403).send('User is not authorized');
     }
     next();
