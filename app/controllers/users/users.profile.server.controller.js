@@ -7,7 +7,8 @@ var _ = require('lodash'),
     errorHandler = require('../errors'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    Article = mongoose.model('Article');
 
 /**
  * Update user details
@@ -73,8 +74,18 @@ exports.author.profile = function(req, res) {
         delete author.updated;
         delete author.resetPasswordToken;
         delete author.resetPasswordExpires;
+        author.articles =  [];
 
         // Add the articles written by the author.
+        Article.find({user: author._id}).sort('-created').exec(function(err, articles) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                author.articles = articles;
+            }
+        });
 
         // Sent the author.
         res.jsonp(author);

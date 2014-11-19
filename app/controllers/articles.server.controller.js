@@ -88,7 +88,7 @@ exports.list = function(req, res) {
  * Article middleware
  */
 exports.articleByID = function(req, res, next, id) {
-    Article.findById(id).populate('user', '_id displayName img').exec(function(err, article) {
+    Article.findById(id).populate('user', '_id displayName img').populate('tags').exec(function(err, article) {
         if (err) return next(err);
         if (!article) return next(new Error('Failed to load article ' + id));
         req.article = article;
@@ -101,8 +101,6 @@ exports.articleByID = function(req, res, next, id) {
  */
 exports.hasAuthorization = function(req, res, next) {
     var isAdmin = _.intersection(req.user.roles, ['admin']).length;
-    console.log('ISADMIN: ');
-    console.log(isAdmin);
     if (isAdmin) {
         return next();
     }
