@@ -59,7 +59,7 @@ exports.me = function(req, res) {
 /**
  * Send Author profile of user
  */
-exports.author.profile = function(req, res) {
+exports.profile = function(req, res) {
     var author = req.profile;
 
     if (author) {
