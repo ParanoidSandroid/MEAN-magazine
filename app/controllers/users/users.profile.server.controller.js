@@ -59,40 +59,27 @@ exports.me = function(req, res) {
 /**
  * Send Author profile of user
  */
-exports.profile = function(req, res) {
-    var author = req.profile;
+exports.authorProfile = function(req, res) {
+    var author = {};
 
-    if (author) {
-        // Remove not needed information.
-        delete author.username;
-        delete author.password;
-        delete author.salt;
-        delete author.provider;
-        delete author.providerData;
-        delete author.additionalProviderData;
-        delete author.roles;
-        delete author.updated;
-        delete author.resetPasswordToken;
-        delete author.resetPasswordExpires;
-        author.articles =  [];
+    author.displayName = req.profile.displayName;
+    author.email = req.profile.email;
+    author.img = req.profile.img;
+    author.articles = [];
 
-        // Add the articles written by the author.
-        Article.find({user: author._id}).sort('-created').exec(function(err, articles) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                author.articles = articles;
-            }
-        });
+    // Add the articles written by the author.
+    Article.find({
+        user: author._id
+    }).sort('-created').exec(function(err, articles) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            // Sent the author.
+            author.articles = articles;
+            res.jsonp(author);
+        }
+    });
 
-        // Sent the author.
-        res.jsonp(author);
-
-    } else {
-        res.status(400).send({
-            message: 'Author is not found'
-        });
-    }
 };
