@@ -18,5 +18,5 @@
             <span data-ng-bind="article.user.displayName"></span>
         </em>
     </small>
-    <p class="lead" data-ng-bind="article.content"></p>
+    <div class="lead" data-ng-bind-html="trustAsHtml(article.content)"></div>
 </section>

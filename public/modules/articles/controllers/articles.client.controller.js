@@ -1,8 +1,21 @@
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
-    function($scope, $stateParams, $location, Authentication, Articles) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles',
+    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles) {
         $scope.authentication = Authentication;
+
+
+        $scope.editorOptions = {
+            language: 'en',
+            allowedContent: true,
+            entities: false,
+            disableAutoInline: true
+        };
+
+        // Called when the editor is completely ready.
+        $scope.editorReady = function() {
+
+        };
 
         $scope.create = function() {
             var article = new Articles({
@@ -53,6 +66,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
             });
+        };
+
+        $scope.trustAsHtml = function(content) {
+            return $sce.trustAsHtml(content);
         };
     }
 ]);
