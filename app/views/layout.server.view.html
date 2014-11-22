@@ -45,23 +45,19 @@
 </head>
 
 <body class="ng-cloak">
-    <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" data-ng-if="authentication.user"></header>
+    <header data-ng-controller="HeaderController" data-ng-include="'/modules/core/views/header.client.view.html'">
+    </header>
     <section class="content">
         <section class="container">
             {% block content %}{% endblock %}
         </section>
     </section>
-    <footer class="navbar navbar-static-bottom navbar-inverse">
-         <ul class="nav navbar-nav" data-ng-hide="false">
-            <li ui-route="/signin" ng-class="{active: $uiRoute}">
-                <a href="/#!/signin">Sign In</a>
-            </li>
-        </ul>
+      <footer data-ng-include="'/modules/core/views/footer.client.view.html'">
     </footer>
 
     <!--Embedding The User Object-->
     <script type="text/javascript">
-        var user = {{ user | json | safe }};
+    var user = {{ user | json | safe }};
     </script>
 
     <!--Application JavaScript Files-->

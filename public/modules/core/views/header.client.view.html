@@ -1,4 +1,4 @@
-<div class="container" data-ng-controller="HeaderController">
+<div class="container-fluid navbar navbar-fixed-top navbar-inverse" data-ng-if="authentication.user">
     <div class="navbar-header">
         <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
             <span class="sr-only">Toggle navigation</span>
@@ -23,14 +23,14 @@
                 <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" data-ng-hide="true">
+        <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
             <li ui-route="/signup" ng-class="{active: $uiRoute}">
                 <a href="/#!/signup">Sign Up</a>
             </li>
-            <li class="divider-vertical"></li>
+            <!--  <li class="divider-vertical"></li>
             <li ui-route="/signin" ng-class="{active: $uiRoute}">
                 <a href="/#!/signin">Sign In</a>
-            </li>
+            </li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
             <li class="dropdown">
