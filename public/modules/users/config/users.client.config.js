@@ -27,4 +27,13 @@ angular.module('users').config(['$httpProvider',
             }
         ]);
     }
+])
+// Configuring the Articles module
+.run(['Menus',
+    function(Menus) {
+        // Set top bar menu items
+        Menus.addMenuItem('topbar', 'Users', 'users', 'dropdown', '/users(/create)?', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'users', 'List Users', 'users', 'menuItemURL', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'users', 'Add User', 'users/create', 'menuItemURL', false, ['admin']);
+    }
 ]);

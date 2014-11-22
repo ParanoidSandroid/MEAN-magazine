@@ -40,25 +40,28 @@
 
     <!-- HTML5 Shim -->
     <!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
 
 <body class="ng-cloak">
-    <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+    <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" data-ng-if="authentication.user"></header>
     <section class="content">
         <section class="container">
             {% block content %}{% endblock %}
         </section>
     </section>
+    <footer class="navbar navbar-static-bottom navbar-inverse">
+         <ul class="nav navbar-nav" data-ng-hide="false">
+            <li ui-route="/signin" ng-class="{active: $uiRoute}">
+                <a href="/#!/signin">Sign In</a>
+            </li>
+        </ul>
+    </footer>
 
     <!--Embedding The User Object-->
     <script type="text/javascript">
-    var user = {
-        {
-            user | json | safe
-        }
-    };
+        var user = {{ user | json | safe }};
     </script>
 
     <!--Application JavaScript Files-->
