@@ -17,6 +17,8 @@
 .not_found {
 	background-color:#D1D1D1;
 	font-family: 'Ubuntu', sans-serif;
+	padding: 20px;
+	margin: 0px;
 }
 
 .not_found a {
