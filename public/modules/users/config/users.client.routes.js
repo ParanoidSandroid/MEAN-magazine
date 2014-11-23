@@ -7,15 +7,24 @@ angular.module('users').config(['$stateProvider',
         $stateProvider.
         state('profile', {
             url: '/settings/profile',
-            templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
+            templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('password', {
             url: '/settings/password',
-            templateUrl: 'modules/users/views/settings/change-password.client.view.html'
+            templateUrl: 'modules/users/views/settings/change-password.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('accounts', {
             url: '/settings/accounts',
-            templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
+            templateUrl: 'modules/users/views/settings/social-accounts.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('signup', {
             url: '/signup',
@@ -42,8 +51,11 @@ angular.module('users').config(['$stateProvider',
             templateUrl: 'modules/users/views/password/reset-password.client.view.html'
         }).
         state('listUsers', {
-            url:'/users',
-            templateUrl: 'modules/users/views/admin/list-users.client.view.html'
+            url: '/users',
+            templateUrl: 'modules/users/views/admin/list-users.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         });
     }
 ]);

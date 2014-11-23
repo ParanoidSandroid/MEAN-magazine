@@ -3,7 +3,7 @@
 		<h1 data-ng-bind="category.name"></h1>
 	</div>
 	<div class="pull-right" data-ng-show="authentication.user.roles[0] == 'admin'">
-		<a class="btn btn-primary" href="/#!/categories/{{category._id}}/edit">
+		<a class="btn btn-primary" href="/#!/manage/categories/{{category._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>
 		</a>
 		<a class="btn btn-primary" data-ng-click="remove();">
