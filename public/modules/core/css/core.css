@@ -13,3 +13,14 @@
 .ng-valid.ng-dirty {
     border-color: #78FA89;
 }
+
+.not_found {
+	background-color:#D1D1D1;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+.not_found a {
+	text-decoration:none;
+	font-weight:bold;
+	color:#800000;
+}
