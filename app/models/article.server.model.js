@@ -31,8 +31,8 @@ var ArticleSchema = new Schema({
         trim: true
     },
     img: {
-        data: Buffer,
-        contentType: String
+        type: String,
+        default: ''
     },
     tags: [{
         type: Schema.ObjectId,
@@ -44,6 +44,8 @@ var ArticleSchema = new Schema({
         ref: 'User'
     }
 });
-ArticleSchema.index({ tags: 1 });
+ArticleSchema.index({
+    tags: 1
+});
 
 mongoose.model('Article', ArticleSchema);

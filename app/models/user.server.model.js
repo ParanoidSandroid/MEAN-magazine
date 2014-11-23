@@ -60,8 +60,8 @@ var UserSchema = new Schema({
         validate: [validateLocalStrategyPassword, 'Password should be longer']
     },
     img: {
-        data: Buffer,
-        contentType: String
+        type: String,
+        default: ''
     },
     salt: {
         type: String
