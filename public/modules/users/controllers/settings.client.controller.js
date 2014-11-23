@@ -67,5 +67,14 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
                 $scope.error = response.message;
             });
         };
+
+        // Get list of users
+        $scope.find = function() {
+            $scope.users = Users.query();
+        };
+
+        $scope.promoteToAdmin = function() {
+            $scope.isAdmin = true;
+        };
     }
 ]);

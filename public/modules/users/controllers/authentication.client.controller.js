@@ -5,7 +5,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
         $scope.authentication = Authentication;
 
         // If user is signed in and is not admin then redirect back home
-        if ($scope.authentication.user && $scope.authentication.user.roles[0] != 'admin') $location.path('/');
+        if ($scope.authentication.user && $scope.authentication.user.roles[0] !== 'admin') $location.path('/');
 
         $scope.signup = function() {
             $http.post('/auth/signup', $scope.credentials).success(function(response) {
