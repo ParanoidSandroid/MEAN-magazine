@@ -44,5 +44,6 @@ var ArticleSchema = new Schema({
         ref: 'User'
     }
 });
+ArticleSchema.index({ tags: 1 });
 
 mongoose.model('Article', ArticleSchema);

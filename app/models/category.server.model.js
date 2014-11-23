@@ -26,5 +26,6 @@ var CategorySchema = new Schema({
         default: []
     }]
 });
+CategorySchema.set('autoIndex', false);
 
 mongoose.model('Category', CategorySchema);
