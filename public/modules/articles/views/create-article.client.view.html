@@ -10,17 +10,57 @@
                     <div class="controls">
                         <input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" required>
                     </div>
-                     <label class="control-label" for="summary">Summary</label>
-                     <div class="controls">
-                        <input name="summary" type="text" data-ng-model="article.summary" id="summary" class="form-control" placehonder="Summary (optional)">
+                    <label class="control-label" for="summary">Summary</label>
+                    <div class="controls">
+                        <input name="summary" type="text" data-ng-model="summary" id="summary" class="form-control" placehonder="Summary is optional">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="content">Content</label>
                     <div class="controls">
-                        <textarea ckeditor="editorOptions" ready="editorReady" name="content" data-ng-model="article.content" id="content" class="form-control" placeholder="Content" required></textarea>
+                        <textarea ckeditor="editorOptions" ready="editorReady" name="content" data-ng-model="content" id="content" class="form-control" placeholder="Content" required></textarea>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label" for="category">Category</label>
+                    <div class="controls">
+                        <span class="nullable">
+                            <select data-ng-model="selectedCategory" data-ng-options="category.name for category in categories">
+                                <option value="">-- choose category --</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="subcategory">Subcategory</label>
+                    <div class="controls">
+                        <span class="nullable">
+                            <select data-ng-model="selectedSubcategory" data-ng-options="subcategory.name for subcategory in selectedCategory.subcategories">
+                                <option value="">-- choose subcategory --</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="control-label">Tags</label>
+                    <div class="controls">
+                        <div class="btn-group" dropdown is-open="status.isopen">
+                            <button type="button" class="btn btn-primary" dropdown-toggle>
+                                Available tags <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-ng-repeat="tag in tags"><a href data-ng-click="articleTags.push(tag)">{{ tag.name }}</a>
+                            </ul>
+                        </div>
+                        <ul>
+                            <li data-ng-repeat="tag in articleTags">
+                                <button type="button" class="btn btn-info btn-xs" data-ng-click="articleTags.splice($index, 1)">{{ tag.name }}
+                                    <span class="glyphicon glyphicon-remove">
+                                </button>
+                            </li>
+                        </ul>
+                     </div>
+                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-default">
                 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles',
-    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags',
+    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags) {
         $scope.authentication = Authentication;
 
 
@@ -17,16 +17,30 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
         };
 
+        // Define and initialize scope vars.
+        $scope.categories = Categories.query();
+        $scope.tags = Tags.query();
+        $scope.articleTags = [];
+        $scope.status = {
+            isopen: false
+        };
+
         $scope.create = function() {
+            $scope.articleTags = window._.pluck($scope.articleTags, '_id');
+
             var article = new Articles({
                 title: this.title,
-                content: this.content
+                content: this.content,
+                summary: this.summary,
+                tags: this.articleTags
             });
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
 
                 $scope.title = '';
+                $scope.summary = '';
                 $scope.content = '';
+                $scope.articleTags = [];
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
