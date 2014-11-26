@@ -13,7 +13,6 @@ var mongoose = require('mongoose'),
  */
 exports.create = function(req, res) {
     var category = new Category(req.body);
-    category.user = req.user;
 
     category.save(function(err) {
         if (err) {
@@ -73,15 +72,17 @@ exports.delete = function(req, res) {
  * List of Categories
  */
 exports.list = function(req, res) {
-    Category.find().sort('-created').populate('user', 'displayName').exec(function(err, categories) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.jsonp(categories);
-        }
-    });
+    Category.find().sort('-created')
+        .populate('subcategories')
+        .exec(function(err, categories) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.jsonp(categories);
+            }
+        });
 };
 
 /**
@@ -89,7 +90,6 @@ exports.list = function(req, res) {
  */
 exports.categoryByID = function(req, res, next, id) {
     Category.findById(id)
-        .populate('user', 'displayName')
         .populate('subcategories')
         .exec(function(err, category) {
             if (err) return next(err);
@@ -98,4 +98,3 @@ exports.categoryByID = function(req, res, next, id) {
             next();
         });
 };
-

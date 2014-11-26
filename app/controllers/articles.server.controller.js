@@ -73,7 +73,7 @@ exports.delete = function(req, res) {
  * List of Articles
  */
 exports.list = function(req, res) {
-    Article.find().sort('-created').populate('user', '_id displayName img').exec(function(err, articles) {
+    Article.find().sort('-created').populate('user', '_id displayName img').populate('tags').exec(function(err, articles) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

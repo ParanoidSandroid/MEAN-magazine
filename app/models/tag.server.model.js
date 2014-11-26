@@ -16,6 +16,10 @@ var TagSchema = new Schema({
         required: 'Please fill Tag name',
         trim: true
     },
+    isCategory: {
+        type: Boolean,
+        default: false
+    },
     created: {
         type: Date,
         default: Date.now
