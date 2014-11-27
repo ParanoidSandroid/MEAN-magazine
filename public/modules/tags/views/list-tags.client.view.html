@@ -7,10 +7,9 @@
             <small class="list-group-item-text">
                 Posted on
                 <span data-ng-bind="tag.created | date:'medium'"></span>
-                by
-                <span data-ng-bind="tag.user.displayName"></span>
             </small>
             <h4 class="list-group-item-heading" data-ng-bind="tag.name"></h4>
+            <h5 class="muted pull-right" data-ng-show="tag.isCategory">Category</h5>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!tags.$resolved || tags.length">

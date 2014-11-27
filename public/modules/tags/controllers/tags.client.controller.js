@@ -9,7 +9,8 @@ angular.module('tags').controller('TagsController', ['$scope', '$stateParams', '
         $scope.create = function() {
             // Create new Tag object
             var tag = new Tags({
-                name: this.name
+                name: this.name,
+                isCategory: this.isCategory
             });
 
             // Redirect after save
