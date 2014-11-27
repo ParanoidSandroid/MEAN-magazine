@@ -13,9 +13,12 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
         // Create new Category
         $scope.create = function() {
+            $scope.subcategories = window._.pluck($scope.subcategories, '_id');
+
             // Create new Category object
             var category = new Categories({
-                name: this.name
+                name: this.name,
+                subcategories: this.subcategories
             });
 
             // Redirect after save
