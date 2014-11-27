@@ -1,9 +1,15 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories',
-    function($scope, $stateParams, $location, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories', 'Tags',
+    function($scope, $stateParams, $location, Authentication, Categories, Tags) {
         $scope.authentication = Authentication;
+
+        $scope.tags = Tags.query();
+        $scope.subcategories = [];
+        $scope.status = {
+            isopen: false
+        };
 
         // Create new Category
         $scope.create = function() {

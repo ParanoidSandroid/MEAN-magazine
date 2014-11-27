@@ -11,6 +11,26 @@
                         <input type="text" data-ng-model="category.name" id="name" class="form-control" placeholder="Name" required>
                     </div>
                 </div>
+                 <div class="form-group">
+                    <label for="tags" class="control-label">Subcategories</label>
+                    <div class="controls">
+                        <div class="btn-group" dropdown is-open="status.isopen">
+                            <button type="button" class="btn btn-primary" dropdown-toggle>
+                                Available tags <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-ng-repeat="tag in tags"><a href data-ng-click="category.subcategories.push(tag)">{{ tag.name }}</a>
+                            </ul>
+                        </div>
+                        <ul>
+                            <li data-ng-repeat="subcategory in subcategories">
+                                <button type="button" class="btn btn-info btn-xs" data-ng-click="category.subcategories.splice($index, 1)">{{ category.subcategory.name }}
+                                    <span class="glyphicon glyphicon-remove">
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+               </div>
                 <div class="form-group">
                     <input type="submit" value="Update" class="btn btn-default">
                 </div>
