@@ -26,6 +26,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         };
 
         $scope.create = function() {
+            $scope.articleTags.push($scope.selectedSubcategory);
+            $scope.articleTags.push(window._.findWhere($scope.tags, {
+                name: $scope.selectedCategory.name
+            }));
             $scope.articleTags = window._.pluck($scope.articleTags, '_id');
 
             var article = new Articles({
@@ -41,6 +45,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 $scope.summary = '';
                 $scope.content = '';
                 $scope.articleTags = [];
+                $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -67,6 +72,8 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
             article.$update(function() {
                 $location.path('articles/' + article._id);
+
+                $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -79,11 +86,31 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         $scope.findOne = function() {
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
+            }, function() {
+                var categoryTags = window._.where($scope.article.tags, {
+                    isCategory: true
+                });
+                $scope.selectedCategory = window._.find($scope.categories, function(category) {
+                    return window._.contains(window._.pluck(categoryTags, 'name'), category.name);
+                });
+                if ($scope.selectedCategory.subcategories.length > 0) {
+                    $scope.selectedSubcategory = window._.intersection($scope.selectedCategory.subcategories, categoryTags);
+                }
             });
+
         };
 
         $scope.trustAsHtml = function(content) {
             return $sce.trustAsHtml(content);
+        };
+
+        $scope.addTag = function(tag, index) {
+            $scope.articleTags.push(tag);
+            $scope.tags.splice(index, 1);
+        };
+        $scope.removeTag = function(tag, index) {
+            $scope.tags.push(tag);
+            $scope.articleTags.splice(index, 1);
         };
     }
 ]);

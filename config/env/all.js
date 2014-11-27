@@ -24,7 +24,7 @@ module.exports = {
                 'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
                 'public/lib/ckeditor/ckeditor.js',
                 'public/lib/angular-ckeditor/angular-ckeditor.js',
-                'puclic/lib/underscore/underscore.js'
+                'public/lib/underscore/underscore.js'
             ]
         },
         css: [

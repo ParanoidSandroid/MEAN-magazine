@@ -21,6 +21,7 @@ var ApplicationConfiguration = (function() {
         registerModule: registerModule
     };
 })();
+
 'use strict';
 
 //Start by defining the main module and adding the module dependencies
@@ -41,14 +42,26 @@ angular.element(document).ready(function() {
     //Then init the app
     angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });
+
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('articles');
+ApplicationConfiguration.registerModule('articles', ['ckeditor']);
+
+'use strict';
+
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('categories');
 'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');
+
+'use strict';
+
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('tags');
+
 'use strict';
 
 // Use Applicaion configuration module to register a new module
@@ -65,6 +78,7 @@ angular.module('articles').run(['Menus',
         Menus.addSubMenuItem('topbar', 'articles', 'New Article', 'articles/create');
     }
 ]);
+
 'use strict';
 
 // Setting up route
@@ -74,38 +88,78 @@ angular.module('articles').config(['$stateProvider',
         $stateProvider.
         state('listArticles', {
             url: '/articles',
-            templateUrl: 'modules/articles/views/list-articles.client.view.html'
+            templateUrl: 'modules/articles/views/list-articles.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('createArticle', {
             url: '/articles/create',
-            templateUrl: 'modules/articles/views/create-article.client.view.html'
+            templateUrl: 'modules/articles/views/create-article.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('viewArticle', {
             url: '/articles/:articleId',
-            templateUrl: 'modules/articles/views/view-article.client.view.html'
+            templateUrl: 'modules/articles/views/view-article.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('editArticle', {
             url: '/articles/:articleId/edit',
-            templateUrl: 'modules/articles/views/edit-article.client.view.html'
+            templateUrl: 'modules/articles/views/edit-article.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         });
     }
 ]);
+
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
-    function($scope, $stateParams, $location, Authentication, Articles) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags',
+    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags) {
         $scope.authentication = Authentication;
 
+
+        $scope.editorOptions = {
+            language: 'en',
+            allowedContent: true,
+            entities: false,
+            disableAutoInline: true
+        };
+
+        // Called when the editor is completely ready.
+        $scope.editorReady = function() {
+
+        };
+
+        // Define and initialize scope vars.
+        $scope.categories = Categories.query();
+        $scope.tags = Tags.query();
+        $scope.articleTags = [];
+        $scope.status = {
+            isopen: false
+        };
+
         $scope.create = function() {
+            $scope.articleTags = window._.pluck($scope.articleTags, '_id');
+
             var article = new Articles({
                 title: this.title,
-                content: this.content
+                content: this.content,
+                summary: this.summary,
+                tags: this.articleTags
             });
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
 
                 $scope.title = '';
+                $scope.summary = '';
                 $scope.content = '';
+                $scope.articleTags = [];
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -146,8 +200,13 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 articleId: $stateParams.articleId
             });
         };
+
+        $scope.trustAsHtml = function(content) {
+            return $sce.trustAsHtml(content);
+        };
     }
 ]);
+
 'use strict';
 
 //Articles service used for communicating with the articles REST endpoints
@@ -162,22 +221,172 @@ angular.module('articles').factory('Articles', ['$resource',
         });
     }
 ]);
+
+'use strict';
+
+// Configuring the Articles module
+angular.module('categories').run(['Menus',
+    function(Menus) {
+        // Set top bar menu items
+        Menus.addMenuItem('topbar', 'Categories', 'categories', 'dropdown', '/categories(/create)?');
+        Menus.addSubMenuItem('topbar', 'categories', 'List Categories', 'manage/categories');
+        Menus.addSubMenuItem('topbar', 'categories', 'New Category', 'manage/categories/create', 'menuItemURL', false, ['admin']);
+    }
+]);
+
+'use strict';
+
+//Setting up route
+angular.module('categories').config(['$stateProvider',
+    function($stateProvider) {
+        // Categories state routing
+        $stateProvider.
+            // User states
+            state('listCategories', {
+                url: '/manage/categories',
+                templateUrl: 'modules/categories/views/list-categories.client.view.html',
+                data: {
+                    requiresLogin: true
+                }
+            }).
+            state('createCategory', {
+                url: '/manage/categories/create',
+                templateUrl: 'modules/categories/views/create-category.client.view.html',
+                data: {
+                    requiresLogin: true
+                }
+            }).
+            state('viewCategory', {
+                url: '/manage/categories/:categoryId',
+                templateUrl: 'modules/categories/views/view-category.client.view.html',
+                data: {
+                    requiresLogin: true
+                }
+            }).
+            state('editCategory', {
+                    url: '/manage/categories/:categoryId/edit',
+                    templateUrl: 'modules/categories/views/edit-category.client.view.html',
+                    data: {
+                        requiresLogin: true
+                    }
+                }).
+                // Visitor states
+            state('visitCategory', {
+                url: '/categories/:categoryId',
+                templateUrl: 'modules/categories/views/visit-category.client.view.html'
+            });
+    }
+]);
+
+'use strict';
+
+// Categories controller
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories',
+    function($scope, $stateParams, $location, Authentication, Categories) {
+        $scope.authentication = Authentication;
+
+        // Create new Category
+        $scope.create = function() {
+            // Create new Category object
+            var category = new Categories({
+                name: this.name
+            });
+
+            // Redirect after save
+            category.$save(function(response) {
+                $location.path('categories/' + response._id);
+
+                // Clear form fields
+                $scope.name = '';
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Remove existing Category
+        $scope.remove = function(category) {
+            if (category) {
+                category.$remove();
+
+                for (var i in $scope.categories) {
+                    if ($scope.categories[i] === category) {
+                        $scope.categories.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.category.$remove(function() {
+                    $location.path('categories');
+                });
+            }
+        };
+
+        // Update existing Category
+        $scope.update = function() {
+            var category = $scope.category;
+
+            category.$update(function() {
+                $location.path('categories/' + category._id);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Find a list of Categories
+        $scope.find = function() {
+            $scope.categories = Categories.query();
+        };
+
+        // Find existing Category
+        $scope.findOne = function() {
+            $scope.category = Categories.get({
+                categoryId: $stateParams.categoryId
+            });
+        };
+    }
+]);
+
+'use strict';
+
+//Categories service used to communicate Categories REST endpoints
+angular.module('categories').factory('Categories', ['$resource',
+	function($resource) {
+		return $resource('categories/:categoryId', { categoryId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
 'use strict';
 
 // Setting up route
-angular.module('core').config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
-        // Redirect to home view when route not found
-        $urlRouterProvider.otherwise('/');
+angular.module('core')
+    .config(['$stateProvider', '$urlRouterProvider',
+        function($stateProvider, $urlRouterProvider) {
+            // Redirect to home view when route not found
+            $urlRouterProvider.otherwise('/');
 
-        // Home state routing
-        $stateProvider.
-        state('home', {
-            url: '/',
-            templateUrl: 'modules/core/views/home.client.view.html'
-        });
-    }
-]);
+            // Home state routing
+            $stateProvider.
+            state('home', {
+                url: '/',
+                templateUrl: 'modules/core/views/layout.client.view.html'
+            });
+        }
+    ])
+    .run(['$rootScope', '$state', 'Authentication',
+        function($rootScope, $state, Authentication) {
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                if (toState.hasOwnProperty('data') && toState.data.requiresLogin && !Authentication.user) {
+                    event.preventDefault();
+                    $state.go('home');
+                    return false;
+                }
+            });
+        }
+    ]);
+
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
@@ -196,15 +405,17 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
         });
     }
 ]);
+
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
+angular.module('core').controller('LayoutController', ['$scope', 'Authentication',
     function($scope, Authentication) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
     }
 ]);
+
 'use strict';
 
 //Menu service used for managing  menus
@@ -368,9 +579,142 @@ angular.module('core').service('Menus', [
         };
 
         //Adding the topbar menu
-        this.addMenu('topbar');
+        this.addMenu('topbar', false, ['user', 'admin']);
     }
 ]);
+
+'use strict';
+
+// Configuring the Articles module
+angular.module('tags').run(['Menus',
+    function(Menus) {
+        // Set top bar menu items
+        Menus.addMenuItem('topbar', 'Tags', 'tags', 'dropdown', '/tags(/create)?');
+        Menus.addSubMenuItem('topbar', 'tags', 'List Tags', 'tags');
+        Menus.addSubMenuItem('topbar', 'tags', 'New Tag', 'tags/create');
+    }
+]);
+
+'use strict';
+
+//Setting up route
+angular.module('tags').config(['$stateProvider',
+    function($stateProvider) {
+        // Tags state routing
+        $stateProvider.
+        state('listTags', {
+            url: '/tags',
+            templateUrl: 'modules/tags/views/list-tags.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        }).
+        state('createTag', {
+            url: '/tags/create',
+            templateUrl: 'modules/tags/views/create-tag.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        }).
+        state('viewTag', {
+            url: '/tags/:tagId',
+            templateUrl: 'modules/tags/views/view-tag.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        }).
+        state('editTag', {
+            url: '/tags/:tagId/edit',
+            templateUrl: 'modules/tags/views/edit-tag.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        });
+    }
+]);
+
+'use strict';
+
+// Tags controller
+angular.module('tags').controller('TagsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tags',
+    function($scope, $stateParams, $location, Authentication, Tags) {
+        $scope.authentication = Authentication;
+
+        // Create new Tag
+        $scope.create = function() {
+            // Create new Tag object
+            var tag = new Tags({
+                name: this.name
+            });
+
+            // Redirect after save
+            tag.$save(function(response) {
+                $location.path('tags/' + response._id);
+
+                // Clear form fields
+                $scope.name = '';
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Remove existing Tag
+        $scope.remove = function(tag) {
+            if (tag) {
+                tag.$remove();
+
+                for (var i in $scope.tags) {
+                    if ($scope.tags[i] === tag) {
+                        $scope.tags.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.tag.$remove(function() {
+                    $location.path('tags');
+                });
+            }
+        };
+
+        // Update existing Tag
+        $scope.update = function() {
+            var tag = $scope.tag;
+
+            tag.$update(function() {
+                $location.path('tags/' + tag._id);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Find a list of Tags
+        $scope.find = function() {
+            $scope.tags = Tags.query();
+        };
+
+        // Find existing Tag
+        $scope.findOne = function() {
+            $scope.tag = Tags.get({
+                tagId: $stateParams.tagId
+            });
+        };
+    }
+]);
+
+'use strict';
+
+//Tags service used to communicate Tags REST endpoints
+angular.module('tags').factory('Tags', ['$resource',
+    function($resource) {
+        return $resource('tags/:tagId', {
+            tagId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
 'use strict';
 
 // Config HTTP Error Handling
@@ -400,7 +744,17 @@ angular.module('users').config(['$httpProvider',
             }
         ]);
     }
+])
+// Configuring the Articles module
+.run(['Menus',
+    function(Menus) {
+        // Set top bar menu items
+        Menus.addMenuItem('topbar', 'Users', 'users', 'dropdown', '/users(/create)?', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'users', 'List Users', 'users', 'menuItemURL', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'users', 'Add User', 'users/create', 'menuItemURL', false, ['admin']);
+    }
 ]);
+
 'use strict';
 
 // Setting up route
@@ -410,15 +764,24 @@ angular.module('users').config(['$stateProvider',
         $stateProvider.
         state('profile', {
             url: '/settings/profile',
-            templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
+            templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('password', {
             url: '/settings/password',
-            templateUrl: 'modules/users/views/settings/change-password.client.view.html'
+            templateUrl: 'modules/users/views/settings/change-password.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('accounts', {
             url: '/settings/accounts',
-            templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
+            templateUrl: 'modules/users/views/settings/social-accounts.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         }).
         state('signup', {
             url: '/signup',
@@ -443,17 +806,25 @@ angular.module('users').config(['$stateProvider',
         state('reset', {
             url: '/password/reset/:token',
             templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+        }).
+        state('listUsers', {
+            url: '/users',
+            templateUrl: 'modules/users/views/admin/list-users.client.view.html',
+            data: {
+                requiresLogin: true
+            }
         });
     }
 ]);
+
 'use strict';
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
     function($scope, $http, $location, Authentication) {
         $scope.authentication = Authentication;
 
-        // If user is signed in then redirect back home
-        if ($scope.authentication.user) $location.path('/');
+        // If user is signed in and is not admin then redirect back home
+        if ($scope.authentication.user && $scope.authentication.user.roles[0] !== 'admin') $location.path('/');
 
         $scope.signup = function() {
             $http.post('/auth/signup', $scope.credentials).success(function(response) {
@@ -480,6 +851,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
         };
     }
 ]);
+
 'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication',
@@ -524,6 +896,7 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
         };
     }
 ]);
+
 'use strict';
 
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication',
@@ -593,6 +966,15 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
                 $scope.error = response.message;
             });
         };
+
+        // Get list of users
+        $scope.find = function() {
+            $scope.users = Users.query();
+        };
+
+        $scope.promoteToAdmin = function() {
+            $scope.isAdmin = true;
+        };
     }
 ]);
 
@@ -611,6 +993,7 @@ angular.module('users').factory('Authentication', [
         return _this._data;
     }
 ]);
+
 'use strict';
 
 // Users service used for communicating with the users REST endpoint

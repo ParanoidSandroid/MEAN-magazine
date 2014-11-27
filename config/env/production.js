@@ -16,7 +16,7 @@ module.exports = {
                 'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 'public/lib/ckeditor/ckeditor.js',
                 'public/lib/angular-ckeditor/angular-ckeditor.min.js',
-                'puclic/lib/underscore/underscore.min.js'
+                'public/lib/underscore/underscore.min.js'
             ]
         },
         css: 'public/dist/application.min.css',
