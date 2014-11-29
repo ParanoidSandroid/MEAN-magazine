@@ -30,6 +30,11 @@ var ArticleSchema = new Schema({
         default: '',
         trim: true
     },
+    category: {
+        type: Schema.ObjectId,
+        ref: 'Category',
+        required: 'You must pick a category'
+    },
     img: {
         type: String,
         default: ''
