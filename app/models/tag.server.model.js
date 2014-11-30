@@ -16,7 +16,7 @@ var TagSchema = new Schema({
         required: 'Please fill Tag name',
         trim: true
     },
-    isCategory: {
+    isSubcategory: {
         type: Boolean,
         default: false
     },
