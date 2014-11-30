@@ -31,7 +31,7 @@
                     <label class="control-label" for="category">Category</label>
                     <div class="controls">
                         <span class="nullable">
-                            <select data-ng-model="selectedCategory" data-ng-options="category.name for category in categories">
+                            <select data-ng-model="article.category" data-ng-options="category.name for category in categories">
                                 <option value="">-- choose category --</option>
                             </select>
                         </span>
@@ -41,7 +41,7 @@
                     <label class="control-label" for="subcategory">Subcategory</label>
                     <div class="controls">
                         <span class="nullable">
-                            <select data-ng-model="selectedSubcategory" data-ng-options="subcategory.name for subcategory in selectedCategory.subcategories">
+                            <select data-ng-model="article.subcategory" data-ng-options="subcategory.name for subcategory in article.category.subcategories">
                                 <option value="">-- choose subcategory --</option>
                             </select>
                         </span>
@@ -59,7 +59,7 @@
                             </ul>
                         </div>
                         <ul>
-                            <li data-ng-repeat="tag in articleTags">
+                            <li data-ng-repeat="tag in article.tags">
                                 <button type="button" class="btn btn-info btn-xs" data-ng-click="removeTag(tag, $index)">{{ tag.name }}
                                     <span class="glyphicon glyphicon-remove">
                                 </button>

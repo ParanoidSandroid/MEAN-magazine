@@ -6,28 +6,28 @@ angular.module('articles').config(['$stateProvider',
         // Articles state routing
         $stateProvider.
         state('listArticles', {
-            url: '/articles',
+            url: '/manage/articles',
             templateUrl: 'modules/articles/views/list-articles.client.view.html',
             data: {
                 requiresLogin: true
             }
         }).
         state('createArticle', {
-            url: '/articles/create',
+            url: '/manage/articles/create',
             templateUrl: 'modules/articles/views/create-article.client.view.html',
             data: {
                 requiresLogin: true
             }
         }).
         state('viewArticle', {
-            url: '/articles/:articleId',
+            url: '/manage/articles/:articleId',
             templateUrl: 'modules/articles/views/view-article.client.view.html',
             data: {
                 requiresLogin: true
             }
         }).
         state('editArticle', {
-            url: '/articles/:articleId/edit',
+            url: '/manage/articles/:articleId/edit',
             templateUrl: 'modules/articles/views/edit-article.client.view.html',
             data: {
                 requiresLogin: true

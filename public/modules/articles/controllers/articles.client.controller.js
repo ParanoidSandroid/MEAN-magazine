@@ -20,31 +20,24 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         // Define and initialize scope vars.
         $scope.categories = Categories.query();
         $scope.tags = Tags.query();
-        $scope.articleTags = [];
+        $scope.article =  new Articles({
+            title: '',
+            content: '',
+            summary: '',
+            tags: []
+        });
         $scope.status = {
             isopen: false
         };
 
         $scope.create = function() {
-            $scope.articleTags.push($scope.selectedSubcategory);
-            $scope.articleTags.push(window._.findWhere($scope.tags, {
-                name: $scope.selectedCategory.name
-            }));
-            $scope.articleTags = window._.pluck($scope.articleTags, '_id');
-
-            var article = new Articles({
-                title: this.title,
-                content: this.content,
-                summary: this.summary,
-                tags: this.articleTags
-            });
+            var article = $scope.article;
+            article.tags.push(article.subcategory);
+            article.category = article.category._id;
+            article.tags = window._.pluck(article.tags, '_id');
+            delete article.subcategory;
             article.$save(function(response) {
-                $location.path('articles/' + response._id);
-
-                $scope.title = '';
-                $scope.summary = '';
-                $scope.content = '';
-                $scope.articleTags = [];
+                $location.path('manage/articles/' + response._id);
                 $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
@@ -62,7 +55,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 }
             } else {
                 $scope.article.$remove(function() {
-                    $location.path('articles');
+                    $location.path('manage/articles');
                 });
             }
         };
@@ -71,7 +64,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             var article = $scope.article;
 
             article.$update(function() {
-                $location.path('articles/' + article._id);
+                $location.path('manage/articles/' + article._id);
 
                 $scope.status.isopen = false;
             }, function(errorResponse) {
@@ -87,17 +80,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
             }, function() {
-                var categoryTags = window._.where($scope.article.tags, {
-                    isCategory: true
+                $scope.article.subcategory = window._.where($scope.article.tags, {
+                    isSubcategory: true
                 });
-                $scope.selectedCategory = window._.find($scope.categories, function(category) {
-                    return window._.contains(window._.pluck(categoryTags, 'name'), category.name);
-                });
-                if ($scope.selectedCategory.subcategories.length > 0) {
-                    $scope.selectedSubcategory = window._.intersection($scope.selectedCategory.subcategories, categoryTags);
-                }
             });
-
         };
 
         $scope.trustAsHtml = function(content) {
@@ -105,12 +91,12 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         };
 
         $scope.addTag = function(tag, index) {
-            $scope.articleTags.push(tag);
+            $scope.article.tags.push(tag);
             $scope.tags.splice(index, 1);
         };
         $scope.removeTag = function(tag, index) {
             $scope.tags.push(tag);
-            $scope.articleTags.splice(index, 1);
+            $scope.article.tags.splice(index, 1);
         };
     }
 ]);
