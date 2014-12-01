@@ -80,8 +80,11 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
             }, function() {
-                $scope.article.subcategory = window._.where($scope.article.tags, {
+                $scope.article.subcategory = window._.findWhere($scope.article.tags, {
                     isSubcategory: true
+                });
+                $scope.article.category = window._.findWhere($scope.categories, {
+                    _id: $scope.article.category._id
                 });
             });
         };
