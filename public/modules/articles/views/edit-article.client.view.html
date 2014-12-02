@@ -55,11 +55,11 @@
                                 Available tags <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li data-ng-repeat="tag in tags"><a href data-ng-click="addTag(tag, $index)">{{ tag.name }}</a>
+                                <li data-ng-repeat="tag in tags | filter:{isSubcategory:false}"><a href data-ng-click="addTag(tag, $index)">{{ tag.name }}</a>
                             </ul>
                         </div>
                         <ul>
-                            <li data-ng-repeat="tag in article.tags">
+                            <li data-ng-repeat="tag in article.tags | filter:{isSubcategory:false}">
                                 <button type="button" class="btn btn-info btn-xs" data-ng-click="removeTag(tag, $index)">{{ tag.name }}
                                     <span class="glyphicon glyphicon-remove">
                                 </button>

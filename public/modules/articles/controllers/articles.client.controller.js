@@ -20,7 +20,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         // Define and initialize scope vars.
         $scope.categories = Categories.query();
         $scope.tags = Tags.query();
-        $scope.article =  new Articles({
+        $scope.article = new Articles({
             title: '',
             content: '',
             summary: '',
@@ -37,7 +37,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             article.tags = window._.pluck(article.tags, '_id');
             delete article.subcategory;
             article.$save(function(response) {
-                $location.path('manage/articles/' + response._id);
+                $location.path('articles/' + response._id);
                 $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
@@ -55,7 +55,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 }
             } else {
                 $scope.article.$remove(function() {
-                    $location.path('manage/articles');
+                    $location.path('articles');
                 });
             }
         };
@@ -64,7 +64,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             var article = $scope.article;
 
             article.$update(function() {
-                $location.path('manage/articles/' + article._id);
+                $location.path('articles/' + article._id);
 
                 $scope.status.isopen = false;
             }, function(errorResponse) {
@@ -80,12 +80,12 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
             }, function() {
-                $scope.article.subcategory = window._.findWhere($scope.article.tags, {
-                    isSubcategory: true
-                });
                 $scope.article.category = window._.findWhere($scope.categories, {
                     _id: $scope.article.category._id
                 });
+                $scope.article.subcategory = window._.findWhere($scope.article.tags, {
+                    isSubcategory: true
+                }); ///// bugggg
             });
         };
 

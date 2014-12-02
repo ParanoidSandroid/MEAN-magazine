@@ -6,27 +6,26 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
         $scope.authentication = Authentication;
 
         $scope.tags = Tags.query();
-        $scope.subcategories = [];
+        $scope.category = new Categories({
+            name: '',
+            subcategories: []
+        });
         $scope.status = {
             isopen: false
         };
 
         // Create new Category
         $scope.create = function() {
-            $scope.subcategories = window._.pluck($scope.subcategories, '_id');
-
-            // Create new Category object
-            var category = new Categories({
-                name: this.name,
-                subcategories: this.subcategories
-            });
+            var category = $scope.category;
+            category.subcategories = window._.pluck(category.subcategories, '_id');
 
             // Redirect after save
             category.$save(function(response) {
                 $location.path('categories/' + response._id);
 
                 // Clear form fields
-                $scope.name = '';
+                $scope.category.name = '';
+                $scope.category.subcategories = [];
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -70,6 +69,18 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
             $scope.category = Categories.get({
                 categoryId: $stateParams.categoryId
             });
+        };
+
+        // Add an existing subcategory to category object.
+        $scope.addSubcategory = function(subcategory, index) {
+            $scope.category.subcategories.push(subcategory);
+            $scope.tags.splice(index, 1);
+        };
+
+        // Remove an existing subcategory to category object.
+        $scope.removeSubcategory = function(subcategory, index) {
+            $scope.tags.push(subcategory);
+            $scope.category.subcategories.splice(index, 1);
         };
     }
 ]);

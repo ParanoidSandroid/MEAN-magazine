@@ -21,10 +21,10 @@ angular.module('tags').config(['$stateProvider',
         }).
         state('viewTag', {
             url: '/tags/:tagId',
-            templateUrl: 'modules/tags/views/view-tag.client.view.html',
-            data: {
-                requiresLogin: true
-            }
+            templateUrl: 'modules/tags/views/view-tag.client.view.html'//,
+            // data: {
+            //     requiresLogin: true
+            // }
         }).
         state('editTag', {
             url: '/tags/:tagId/edit',

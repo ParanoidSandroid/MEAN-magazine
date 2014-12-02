@@ -19,12 +19,12 @@
                                 Available tags <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li data-ng-repeat="tag in tags"><a href data-ng-click="category.subcategories.push(tag)">{{ tag.name }}</a>
+                                <li data-ng-repeat="tag in tags | filter:{isSubcategory:true}"><a href data-ng-click="addSubcategory(tag, $index)">{{ tag.name }}</a>
                             </ul>
                         </div>
                         <ul>
-                            <li data-ng-repeat="subcategory in subcategories">
-                                <button type="button" class="btn btn-info btn-xs" data-ng-click="category.subcategories.splice($index, 1)">{{ category.subcategory.name }}
+                            <li data-ng-repeat="subcategory in category.subcategories">
+                                <button type="button" class="btn btn-info btn-xs" data-ng-click="removeSubcategory(subcategory, $index)">{{ subcategory.name }}
                                     <span class="glyphicon glyphicon-remove">
                                 </button>
                             </li>

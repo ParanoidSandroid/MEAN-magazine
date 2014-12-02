@@ -3,7 +3,7 @@
         <h1>Categories</h1>
     </div>
     <div class="list-group">
-        <a data-ng-repeat="category in categories" data-ng-href="#!/manage/categories/{{category._id}}" class="list-group-item">
+        <a data-ng-repeat="category in categories" data-ng-href="#!/categories/{{category._id}}" class="list-group-item">
 			<small class="list-group-item-text">
 				Posted on
 				<span data-ng-bind="category.created | date:'medium'"></span>
@@ -14,6 +14,6 @@
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
-    	No Categories yet, why don't you <a href="/#!/manage/categories/create">create one</a>?
+    	No Categories yet, why don't you <a href="/#!/categories/create">create one</a>?
     </div>
 </section>
