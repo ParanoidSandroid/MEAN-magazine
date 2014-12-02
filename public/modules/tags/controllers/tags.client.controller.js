@@ -5,13 +5,14 @@ angular.module('tags').controller('TagsController', ['$scope', '$stateParams', '
     function($scope, $stateParams, $location, Authentication, Tags) {
         $scope.authentication = Authentication;
 
+        $scope.tag = new Tags({
+            name: '',
+            isSubcategory: false
+        });
+
         // Create new Tag
         $scope.create = function() {
-            // Create new Tag object
-            var tag = new Tags({
-                name: this.name,
-                isCategory: this.isCategory
-            });
+            var tag = $scope.tag;
 
             // Redirect after save
             tag.$save(function(response) {
