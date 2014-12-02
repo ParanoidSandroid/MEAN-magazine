@@ -83,9 +83,12 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 $scope.article.category = window._.findWhere($scope.categories, {
                     _id: $scope.article.category._id
                 });
-                $scope.article.subcategory = window._.findWhere($scope.article.tags, {
+                var subcategory = window._.findWhere($scope.article.tags, {
                     isSubcategory: true
-                }); ///// bugggg
+                });
+                $scope.article.subcategory = window._.findWhere($scope.article.category.subcategories, {
+                    _id: subcategory._id
+                });
             });
         };
 
