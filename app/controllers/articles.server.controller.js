@@ -73,7 +73,7 @@ exports.delete = function(req, res) {
  * List of Articles
  */
 exports.list = function(req, res) {
-    Article.find().sort('-created').populate('user', '_id displayName img').populate('tags').populate('category').exec(function(err, articles) {
+    Article.find().sort('-created').populate('user', '_id displayName img roles').populate('tags').populate('category').exec(function(err, articles) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -88,7 +88,7 @@ exports.list = function(req, res) {
  * Article middleware
  */
 exports.articleByID = function(req, res, next, id) {
-    Article.findById(id).populate('user', '_id displayName img').populate('tags').populate('category').exec(function(err, article) {
+    Article.findById(id).populate('user', '_id displayName img roles').populate('tags').populate('category').exec(function(err, article) {
         if (err) return next(err);
         if (!article) return next(new Error('Failed to load article ' + id));
         req.article = article;

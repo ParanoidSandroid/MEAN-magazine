@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags',
-    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags', 'Users',
+    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags, Users) {
         $scope.authentication = Authentication;
 
 
@@ -89,6 +89,11 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 $scope.article.subcategory = window._.findWhere($scope.article.category.subcategories, {
                     _id: subcategory._id
                 });
+                $scope.users = Users.query(function() {
+                    $scope.article.user = window._.findWhere($scope.users, {
+                        _id: $scope.article.user._id
+                    });
+                });
             });
         };
 
@@ -103,6 +108,12 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         $scope.removeTag = function(tag, index) {
             $scope.tags.push(tag);
             $scope.article.tags.splice(index, 1);
+        };
+
+        $scope.openDatepicker = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $scope.datepickerOpened = true;
         };
     }
 ]);

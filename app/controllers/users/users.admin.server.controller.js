@@ -46,7 +46,7 @@ exports.promoteToAdmin = function(req, res) {
  * Show all users.
  */
 exports.list = function(req, res) {
-      User.find().sort('-created').exec(function(err, users) {
+      User.find({}, {displayName:1, img:1, roles:1}).sort('-created').exec(function(err, users) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

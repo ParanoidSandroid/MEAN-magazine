@@ -27,46 +27,70 @@
                         <p ng-show="articleForm.content.$error.required" class="text-danger">Content is required</p>
                     </div>
                 </div>
-                 <div class="form-group">
-                    <label class="control-label" for="category">Category</label>
-                    <div class="controls">
-                        <span class="nullable">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="category">Category</label>
+                            <div class="controls">
+                                <span class="nullable">
                             <select data-ng-model="article.category" data-ng-options="category.name for category in categories">
                                 <option value="">-- choose category --</option>
                             </select>
                         </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="subcategory">Subcategory</label>
-                    <div class="controls">
-                        <span class="nullable">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="subcategory">Subcategory</label>
+                            <div class="controls">
+                                <span class="nullable">
                             <select data-ng-model="article.subcategory" data-ng-options="subcategory.name for subcategory in article.category.subcategories">
                                 <option value="">-- choose subcategory --</option>
                             </select>
                         </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="control-label">Tags</label>
+                            <div class="controls">
+                                <div class="btn-group" dropdown is-open="status.isopen">
+                                    <button type="button" class="btn btn-primary" dropdown-toggle>
+                                        Available tags <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li data-ng-repeat="tag in tags | filter:{isSubcategory:false}"><a href data-ng-click="addTag(tag, $index)">{{ tag.name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ul>
+                                    <li data-ng-repeat="tag in article.tags | filter:{isSubcategory:false}">
+                                        <button type="button" class="btn btn-info btn-xs" data-ng-click="removeTag(tag, $index)">{{ tag.name }}
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="date" class="control-label">Date</label>
+                            <div class="controls row">
+                                <p class="input-group col-md-3">
+                                    <input type="text" class="form-control" datepicker-popup="MMM dd, yyyy" ng-model="article.created" is-open="datepickerOpened" min-date="2012-01-01" max-date="'2015-06-22'" datepicker-options="{formatYear: 'yy', startingDay: 1}" ng-required="true" close-text="Close" />
+                                    <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="control-label">Author</label>
+                            <div class="controls">
+                                <select data-ng-model="article.user" data-ng-options="user.displayName for user in users"></select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="tags" class="control-label">Tags</label>
-                    <div class="controls">
-                        <div class="btn-group" dropdown is-open="status.isopen">
-                            <button type="button" class="btn btn-primary" dropdown-toggle>
-                                Available tags <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li data-ng-repeat="tag in tags | filter:{isSubcategory:false}"><a href data-ng-click="addTag(tag, $index)">{{ tag.name }}</a>
-                            </ul>
-                        </div>
-                        <ul>
-                            <li data-ng-repeat="tag in article.tags | filter:{isSubcategory:false}">
-                                <button type="button" class="btn btn-info btn-xs" data-ng-click="removeTag(tag, $index)">{{ tag.name }}
-                                    <span class="glyphicon glyphicon-remove">
-                                </button>
-                            </li>
-                        </ul>
-                     </div>
-                 </div>
                 <div class="form-group">
                     <input type="submit" value="Update" class="btn btn-default">
                 </div>
