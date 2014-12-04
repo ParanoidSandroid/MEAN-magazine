@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags', 'Users',
-    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags, Users) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles', 'Categories', 'Tags', 'Users',
+    function($scope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles, Categories, Tags, Users) {
         $scope.authentication = Authentication;
 
 
@@ -34,7 +34,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             var article = $scope.article;
             article.tags.push(article.subcategory);
             article.category = article.category._id;
-            article.tags = window._.pluck(article.tags, '_id');
+            article.tags = $window._.pluck(article.tags, '_id');
             delete article.subcategory;
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
@@ -80,17 +80,17 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
             }, function() {
-                $scope.article.category = window._.findWhere($scope.categories, {
+                $scope.article.category = $window._.findWhere($scope.categories, {
                     _id: $scope.article.category._id
                 });
-                var subcategory = window._.findWhere($scope.article.tags, {
+                var subcategory = $window._.findWhere($scope.article.tags, {
                     isSubcategory: true
                 });
-                $scope.article.subcategory = window._.findWhere($scope.article.category.subcategories, {
+                $scope.article.subcategory = $window._.findWhere($scope.article.category.subcategories, {
                     _id: subcategory._id
                 });
                 $scope.users = Users.query(function() {
-                    $scope.article.user = window._.findWhere($scope.users, {
+                    $scope.article.user = $window._.findWhere($scope.users, {
                         _id: $scope.article.user._id
                     });
                 });

@@ -1,8 +1,8 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories', 'Tags',
-    function($scope, $stateParams, $location, Authentication, Categories, Tags) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Categories', 'Tags',
+    function($scope, $stateParams, $location, $window, Authentication, Categories, Tags) {
         $scope.authentication = Authentication;
 
         $scope.tags = Tags.query();
@@ -17,7 +17,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
         // Create new Category
         $scope.create = function() {
             var category = $scope.category;
-            category.subcategories = window._.pluck(category.subcategories, '_id');
+            category.subcategories = $window._.pluck(category.subcategories, '_id');
 
             // Redirect after save
             category.$save(function(response) {
