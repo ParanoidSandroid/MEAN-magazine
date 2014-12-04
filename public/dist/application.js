@@ -102,10 +102,10 @@ angular.module('articles').config(['$stateProvider',
         }).
         state('viewArticle', {
             url: '/articles/:articleId',
-            templateUrl: 'modules/articles/views/view-article.client.view.html',
-            data: {
-                requiresLogin: true
-            }
+            templateUrl: 'modules/articles/views/view-article.client.view.html'//,
+            // data: {
+            //     requiresLogin: true
+            // }
         }).
         state('editArticle', {
             url: '/articles/:articleId/edit',
@@ -119,8 +119,8 @@ angular.module('articles').config(['$stateProvider',
 
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', 'Authentication', 'Articles', 'Categories', 'Tags',
-    function($scope, $stateParams, $location, $sce, $filter, Authentication, Articles, Categories, Tags) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles', 'Categories', 'Tags', 'Users',
+    function($scope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles, Categories, Tags, Users) {
         $scope.authentication = Authentication;
 
 
@@ -139,27 +139,29 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         // Define and initialize scope vars.
         $scope.categories = Categories.query();
         $scope.tags = Tags.query();
-        $scope.articleTags = [];
+        $scope.article = new Articles({
+            title: '',
+            content: '',
+            summary: '',
+            tags: []
+        });
         $scope.status = {
             isopen: false
         };
 
         $scope.create = function() {
-            $scope.articleTags = window._.pluck($scope.articleTags, '_id');
-
-            var article = new Articles({
-                title: this.title,
-                content: this.content,
-                summary: this.summary,
-                tags: this.articleTags
-            });
+            var article = $scope.article;
+            if (article.hasOwnProperty('category') && article.category.hasOwnProperty('subcategory')) {
+                article.tags.push(article.subcategory);
+                article.category = article.category._id;
+            }
+            if (article.tags.length) {
+                article.tags = $window._.pluck(article.tags, '_id');
+            }
+            delete article.subcategory;
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
-
-                $scope.title = '';
-                $scope.summary = '';
-                $scope.content = '';
-                $scope.articleTags = [];
+                $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -186,6 +188,8 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
             article.$update(function() {
                 $location.path('articles/' + article._id);
+
+                $scope.status.isopen = false;
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -198,11 +202,41 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         $scope.findOne = function() {
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
+            }, function() {
+                $scope.article.category = $window._.findWhere($scope.categories, {
+                    _id: $scope.article.category._id
+                });
+                var subcategory = $window._.findWhere($scope.article.tags, {
+                    isSubcategory: true
+                });
+                $scope.article.subcategory = $window._.findWhere($scope.article.category.subcategories, {
+                    _id: subcategory._id
+                });
+                $scope.users = Users.query(function() {
+                    $scope.article.user = $window._.findWhere($scope.users, {
+                        _id: $scope.article.user._id
+                    });
+                });
             });
         };
 
         $scope.trustAsHtml = function(content) {
             return $sce.trustAsHtml(content);
+        };
+
+        $scope.addTag = function(tag, index) {
+            $scope.article.tags.push(tag);
+            $scope.tags.splice(index, 1);
+        };
+        $scope.removeTag = function(tag, index) {
+            $scope.tags.push(tag);
+            $scope.article.tags.splice(index, 1);
+        };
+
+        $scope.openDatepicker = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $scope.datepickerOpened = true;
         };
     }
 ]);
@@ -229,8 +263,8 @@ angular.module('categories').run(['Menus',
     function(Menus) {
         // Set top bar menu items
         Menus.addMenuItem('topbar', 'Categories', 'categories', 'dropdown', '/categories(/create)?');
-        Menus.addSubMenuItem('topbar', 'categories', 'List Categories', 'manage/categories');
-        Menus.addSubMenuItem('topbar', 'categories', 'New Category', 'manage/categories/create', 'menuItemURL', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'categories', 'List Categories', 'categories');
+        Menus.addSubMenuItem('topbar', 'categories', 'New Category', 'categories/create', 'menuItemURL', false, ['admin']);
     }
 ]);
 
@@ -242,62 +276,65 @@ angular.module('categories').config(['$stateProvider',
         // Categories state routing
         $stateProvider.
             // User states
-            state('listCategories', {
-                url: '/manage/categories',
-                templateUrl: 'modules/categories/views/list-categories.client.view.html',
-                data: {
-                    requiresLogin: true
-                }
-            }).
-            state('createCategory', {
-                url: '/manage/categories/create',
-                templateUrl: 'modules/categories/views/create-category.client.view.html',
-                data: {
-                    requiresLogin: true
-                }
-            }).
-            state('viewCategory', {
-                url: '/manage/categories/:categoryId',
-                templateUrl: 'modules/categories/views/view-category.client.view.html',
-                data: {
-                    requiresLogin: true
-                }
-            }).
-            state('editCategory', {
-                    url: '/manage/categories/:categoryId/edit',
-                    templateUrl: 'modules/categories/views/edit-category.client.view.html',
-                    data: {
-                        requiresLogin: true
-                    }
-                }).
-                // Visitor states
-            state('visitCategory', {
-                url: '/categories/:categoryId',
-                templateUrl: 'modules/categories/views/visit-category.client.view.html'
-            });
+        state('listCategories', {
+            url: '/categories',
+            templateUrl: 'modules/categories/views/list-categories.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        }).
+        state('createCategory', {
+            url: '/categories/create',
+            templateUrl: 'modules/categories/views/create-category.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        }).
+        state('viewCategory', {
+            url: '/categories/:categoryId',
+            templateUrl: 'modules/categories/views/view-category.client.view.html'//,
+            // data: {
+            //     requiresLogin: true
+            // }
+        }).
+        state('editCategory', {
+            url: '/categories/:categoryId/edit',
+            templateUrl: 'modules/categories/views/edit-category.client.view.html',
+            data: {
+                requiresLogin: true
+            }
+        });
     }
 ]);
 
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories',
-    function($scope, $stateParams, $location, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Categories', 'Tags',
+    function($scope, $stateParams, $location, $window, Authentication, Categories, Tags) {
         $scope.authentication = Authentication;
+
+        $scope.tags = Tags.query();
+        $scope.category = new Categories({
+            name: '',
+            subcategories: []
+        });
+        $scope.status = {
+            isopen: false
+        };
 
         // Create new Category
         $scope.create = function() {
-            // Create new Category object
-            var category = new Categories({
-                name: this.name
-            });
+            var category = $scope.category;
+            category.subcategories = $window._.pluck(category.subcategories, '_id');
 
             // Redirect after save
             category.$save(function(response) {
                 $location.path('categories/' + response._id);
 
                 // Clear form fields
-                $scope.name = '';
+                $scope.category.name = '';
+                $scope.category.subcategories = [];
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -341,6 +378,18 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
             $scope.category = Categories.get({
                 categoryId: $stateParams.categoryId
             });
+        };
+
+        // Add an existing subcategory to category object.
+        $scope.addSubcategory = function(subcategory, index) {
+            $scope.category.subcategories.push(subcategory);
+            $scope.tags.splice(index, 1);
+        };
+
+        // Remove an existing subcategory to category object.
+        $scope.removeSubcategory = function(subcategory, index) {
+            $scope.tags.push(subcategory);
+            $scope.category.subcategories.splice(index, 1);
         };
     }
 ]);
@@ -618,10 +667,10 @@ angular.module('tags').config(['$stateProvider',
         }).
         state('viewTag', {
             url: '/tags/:tagId',
-            templateUrl: 'modules/tags/views/view-tag.client.view.html',
-            data: {
-                requiresLogin: true
-            }
+            templateUrl: 'modules/tags/views/view-tag.client.view.html'//,
+            // data: {
+            //     requiresLogin: true
+            // }
         }).
         state('editTag', {
             url: '/tags/:tagId/edit',
@@ -640,12 +689,14 @@ angular.module('tags').controller('TagsController', ['$scope', '$stateParams', '
     function($scope, $stateParams, $location, Authentication, Tags) {
         $scope.authentication = Authentication;
 
+        $scope.tag = new Tags({
+            name: '',
+            isSubcategory: false
+        });
+
         // Create new Tag
         $scope.create = function() {
-            // Create new Tag object
-            var tag = new Tags({
-                name: this.name
-            });
+            var tag = $scope.tag;
 
             // Redirect after save
             tag.$save(function(response) {
