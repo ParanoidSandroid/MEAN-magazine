@@ -32,9 +32,13 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
         $scope.create = function() {
             var article = $scope.article;
-            article.tags.push(article.subcategory);
-            article.category = article.category._id;
-            article.tags = $window._.pluck(article.tags, '_id');
+            if (article.hasOwnProperty('category') && article.category.hasOwnProperty('subcategory')) {
+                article.tags.push(article.subcategory);
+                article.category = article.category._id;
+            }
+            if (article.tags.length) {
+                article.tags = $window._.pluck(article.tags, '_id');
+            }
             delete article.subcategory;
             article.$save(function(response) {
                 $location.path('articles/' + response._id);
