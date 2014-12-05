@@ -92,7 +92,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 var subcategory = $window._.findWhere($scope.article.tags, {
                     isSubcategory: true
                 });
-                if (subcategory !== null) {
+                if (typeof subcategory !== 'undefined') {
                     $scope.article.subcategory = $window._.findWhere($scope.article.category.subcategories, {
                         _id: subcategory._id
                     });
