@@ -32,8 +32,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
         $scope.create = function() {
             var article = $scope.article;
-            if (article.hasOwnProperty('category') && article.category.hasOwnProperty('subcategory')) {
-                article.tags.push(article.subcategory);
+            if (article.hasOwnProperty('category')) {
+                if (article.hasOwnProperty('subcategory')) {
+                    article.tags.push(article.subcategory);
+                }
                 article.category = article.category._id;
             }
             if (article.tags.length) {
