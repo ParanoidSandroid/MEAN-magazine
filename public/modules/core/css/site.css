@@ -310,6 +310,9 @@ img.article-tile {
  .inline {
     display: inline;
 }
+.socialButton {
+    display: inline-block;
+}
 /*** Article ***/
  #content-article {
     background-color: #FFFFFF;
