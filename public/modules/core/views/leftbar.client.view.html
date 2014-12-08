@@ -1,0 +1,31 @@
+<!-- Left Sidebar -->
+<div id="sidebar-left">
+    <!-- Editorial -->
+    <div class="row headings">
+        <h3 class="pict">
+            <a href="#/tag/editorial">Editorial</a>
+        </h3>
+    </div>
+    <div class="row" ng-cloak>
+        <h4 class="inner-headings">
+            <a href="#/read/{{}}" class="pict">{{}}</a>
+        </h4>
+        <a href="#/read/{{}}">
+            <img class="img-renponsive" src="{{}}" alt="">
+        </a>
+    </div>
+    <!-- Picturesque -->
+    <div class="row headings">
+        <h3 class="pict">
+            <a href="#/tag/picturesque">Πικτουρέσκ</a>
+        </h3>
+    </div>
+    <div class="row" ng-cloak>
+        <h4 class="inner-headings">
+            <a href="#/read/{{picturesque.articles[0].url}}" class="pict">{{picturesque.articles[0].title}}</a>
+        </h4>
+        <a href="#/read/{{picturesque.articles[0].url}}">
+            <img class="img-renponsive" src="{{picturesque.articles[0].imgPath}}" alt="">
+        </a>
+    </div>
+</div>
