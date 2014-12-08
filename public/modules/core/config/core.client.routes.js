@@ -22,6 +22,20 @@ angular.module('core')
                         templateUrl: 'modules/core/views/leftbar.client.view.html'
                     }
                 }
+            }).
+            state('about', {
+                url: '/about',
+                views: {
+                    '': {
+                        templateUrl: 'modules/core/views/about.client.view.html'
+                    },
+                    'rightbar': {
+                        templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                    },
+                    'leftbar': {
+                        templateUrl: 'modules/core/views/leftbar.client.view.html'
+                    }
+                }
             });
         }
     ])
