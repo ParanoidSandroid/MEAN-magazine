@@ -11,6 +11,7 @@
         "angular-ui-utils": "~0.1.1",
         "angular-ui-router": "~0.2.10",
         "angular-ckeditor": "~0.2.0",
-        "underscore": "~1.7.0"
+        "underscore": "~1.7.0",
+        "bootstrap-social": "~4.8.0"
     }
 }
