@@ -302,14 +302,9 @@ img.article-tile {
     color: white;
     font-family: Cambria, Georgia, serif;
     padding-top: 25px;
-    display: inline-block;
 }
 #signinButton {
-    color: white;
-    font-family: Cambria, Georgia, serif;
-    display: inline-block;
-    padding-left: 10px;
-    padding-right: 20px;
+    padding: 10px;
 }
 /*** General Interest ***/
  .inline {
