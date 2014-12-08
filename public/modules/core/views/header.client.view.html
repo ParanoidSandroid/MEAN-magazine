@@ -58,3 +58,76 @@
         </nav>
     </div>
 </div>
+<section id="banner">
+    <div class="container">
+        <a href="#/">
+            <img class="img-responsive" src="images/banner2.png">
+        </a>
+    </div>
+</section>
+<section id="navbar">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/">
+                    <img class="my-logo img-responsive visible-md visible-lg" src="images/zymbra.jpg">
+                    <img class="my-logo-sm img-responsive visible-xs visible-sm" width="50%" height="50%" src="images/zymbra.jpg">
+                </a>
+            </div>
+            <div collapse="isCollapsed">
+                <ul class="nav navbar-nav my-navbar">
+                    <li>
+                        <a href="#/home">
+                            <span class="glyphicon glyphicon-home home-icon"></span>&#32Home
+                        </a>
+                    </li>
+                    <li><a href="#/category/audio">Audio </a>
+                    </li>
+                    <li><a href="#/category/visual">Visual </a>
+                    </li>
+                    <li><a href="#/category/readings">Readings </a>
+                    </li>
+                    <li><a href="#/category/pressing">Pressing</a>
+                    </li>
+                    <li><a href="#/category/plus">Σκρα-Punk Plus </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="visible-sm visible-md">
+                        <button class="btn btn-inverse" ng-click="searchbarCollapsed = !searchbarCollapsed">
+                            <span class="glyphicon glyphicon-search search-icon"></span>
+                        </button>
+                    </li>
+                    <!-- <li class="visible-xs visible-lg"> -->
+                    <li class="" style="display:none;">
+                        <input class="form-control" type="text" placeholder="Search"></input>
+                    </li>
+                    <li class="visible-xs visible-lg">
+                        <a id="twitterButton" href="https://twitter.com/SKRApunk" target="_blank"></a>
+                        <a id="fbButton" href="https://www.facebook.com/skrapunk" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div collapse="!searchbarCollapsed" class="searchbar">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="col-sm-9" style="display:none;">
+                    <input class="form-control" type="text" placeholder="Search"></input>
+                </div>
+                <div class="col-sm-3">
+                    <a id="twitterButton" href="https://twitter.com/SKRApunk" target="_blank"></a>
+                    <a id="fbButton" href="https://www.facebook.com/skrapunk" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

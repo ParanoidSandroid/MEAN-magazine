@@ -21,10 +21,7 @@ angular.module('articles').config(['$stateProvider',
         }).
         state('viewArticle', {
             url: '/articles/:articleId',
-            templateUrl: 'modules/articles/views/view-article.client.view.html'//,
-            // data: {
-            //     requiresLogin: true
-            // }
+            templateUrl: 'modules/articles/views/view-article.client.view.html'
         }).
         state('editArticle', {
             url: '/articles/:articleId/edit',
