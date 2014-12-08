@@ -208,6 +208,8 @@ a.pict, .pict a {
     height: 1px;
     background-color: #AEAEAE;
     margin-top: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 .separator_tile_horizontal {
     width: 90%;

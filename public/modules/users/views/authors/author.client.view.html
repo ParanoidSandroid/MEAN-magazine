@@ -1,4 +1,4 @@
-<section id="main">
+<section data-ng-controller="AuthorsController" id="main">
     <section class="container-fluid">
         <div class="row">
             <!-- Author Page Content -->
@@ -9,20 +9,49 @@
                         <div class="row">
                             <div class="">
                                 <!-- Author's image -->
-                                <a ng-href="#!/authors???">
-                                    <img class="img-responsive" width="100" height="100" src="{{}}">
+                                <a ng-href="#!/authors/{{author._id}}/profile">
+                                    <img class="img-responsive" width="100" height="100" src="{{author.img}}">
                                 </a>
                             </div>
                             <!-- Author's name -->
-                            <div class="col-xs-6 text-right">Mpampis</div>
+                            <div class="col-xs-6 text-right">
+                                <span data-ng-bind="author.displayName"></span>
+                            </div>
                         </div>
                         <br>
                         <div class="separator"></div>
                     </header>
 
                     <!-- Articles by this author -->
-                    <!-- <section class="text-left" ng-include="article.path" ng-cloak>
-                    </section> -->
+                    <h3>Άρθρα</h3>
+                    <div data-ng-repeat="article in articles">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="article-cell" ng-cloak>
+                                <a data-ng-href="#!/articles/{{article._id}}">
+                                    <img class="img-responsive article-tile" ng-src="{{article.img}}" alt="">
+                                </a>
+                                <a data-ng-href="#!/articles/{{article._id}}">
+                                    <h3 class="inner-headings" data-ng-bind="article.title"></h3>
+                                </a>
+                                <div class="inline" ng-repeat="tag in article.tags">
+                                    <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}">{{tag.name}}
+                                    </span>
+                                </div>
+                                <p>
+                                    <h5 class="articleMeta">
+                                        <!-- <a data-ng-href="#!/authors/{{recent.user._id}}">{{recent.name}}</a> -->
+                                        <span class="pull-right">{{article.created}}</span>
+                                    </h5>
+                                </p>
+                                <div class="separator_tile_horizontal"></div>
+                                <p>
+                                    <h4>
+                                        <small>{{article.summary}}</small>
+                                    </h4>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </article>
