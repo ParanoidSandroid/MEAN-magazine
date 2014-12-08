@@ -11,7 +11,7 @@ angular.module('core')
             $stateProvider.
             state('home', {
                 url: '/',
-                templateUrl: 'modules/core/views/layout.client.view.html'
+                templateUrl: 'modules/core/views/home.client.view.html'
             });
         }
     ])
