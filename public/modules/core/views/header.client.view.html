@@ -58,15 +58,15 @@
         </nav>
     </div>
 </div>
-<section id="banner">
-    <div class="container">
+<section id="banner" data-ng-cloak>
+    <div class="container text-center">
         <a href="#/">
             <img class="img-responsive" src="modules/core/img/brand/top-logo.png">
         </a>
     </div>
 </section>
-<section id="navbar">
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+<section id="navbar" data-ng-cloak>
+    <nav class="navbar navbar-inverse navbar-static-top text-center" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle" ng-click="navCollapsed = !navCollapsed" type="button">
@@ -90,35 +90,20 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="visible-sm visible-md">
-                        <button class="btn btn-inverse" ng-click="searchbarCollapsed = !searchbarCollapsed">
-                            <span class="glyphicon glyphicon-search search-icon"></span>
-                        </button>
-                    </li>
-                    <!-- <li class="visible-xs visible-lg"> -->
-                    <li class="" style="display:none;">
-                        <input class="form-control" type="text" placeholder="Search"></input>
-                    </li>
-                    <li class="visible-xs visible-lg">
-                        <a id="twitterButton" href="https://twitter.com/SKRApunk" target="_blank"></a>
-                        <a id="fbButton" href="https://www.facebook.com/skrapunk" target="_blank"></a>
+                    <li>
+                        <div class="socialButton">
+                            <a class="btn btn-social-icon btn-facebook">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </div>
+                        <div class="socialButton">
+                            <a class="btn btn-social-icon btn-twitter">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div collapse="!searchbarCollapsed" class="searchbar">
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="col-sm-9" style="display:none;">
-                    <input class="form-control" type="text" placeholder="Search"></input>
-                </div>
-                <div class="col-sm-3">
-                    <a id="twitterButton" href="https://twitter.com/SKRApunk" target="_blank"></a>
-                    <a id="fbButton" href="https://www.facebook.com/skrapunk" target="_blank"></a>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>

@@ -1,6 +1,5 @@
 <section data-ng-controller="HomeController">
     <section id="carousel" set-ng-animate="false">
-        <div class="container">
             <carousel interval="carouselInterval" ng-cloak>
                 <slide ng-repeat="article in slides">
                     <a data-ng-href="#!/articles/{{article._id}}">
@@ -14,7 +13,6 @@
                     <div class="carousel-caption-shadow carousel-caption"></div>
                 </slide>
             </carousel>
-        </div>
     </section>
     <div id="content" class="col-md-8">
                 <div class="row headings">

@@ -104,20 +104,20 @@ a:focus {
     display:inline-block;
     width:50px;
     height:35px;
-    background: url('modules/core/img/helpers/tweet.jpg') no-repeat;
+    background: url('../img/helpers/tweet.jpg') no-repeat;
 }
 #twitterButton:hover {
-    background-image: url('modules/core/img/helpers/tweet_hover.jpg');
+    background-image: url('../img/helpers/tweet_hover.jpg');
 }
 #fbButton {
     padding:0px 0px 0px 0px;
     display:inline-block;
     width:40px;
     height:35px;
-    background: url('modules/core/img/helpers/facebook_logo.jpg') no-repeat;
+    background: url('../img/helpers/facebook_logo.jpg') no-repeat;
 }
 #fbButton:hover {
-    background-image: url('modules/core/img/helpers/facebook_logo_hover.jpg');
+    background-image: url('../img/helpers/facebook_logo_hover.jpg');
 }
 .glyphicon {
     display:inline;
@@ -296,7 +296,7 @@ img.article-tile {
 }
 .footerDiv a{
    text-decoration: none;
-   color: white; 
+   color: white;
 }
 #info {
     color: white;
