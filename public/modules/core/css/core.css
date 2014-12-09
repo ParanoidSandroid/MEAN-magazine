@@ -24,3 +24,12 @@
     font-weight: bold;
     color: #800000;
 }
+#content {
+    min-height: 1000px;
+    background: none repeat scroll 0% 0% #E9EAED;
+}
+#rightbar, #leftbar {
+    background: none repeat scroll 0% 0% #D2D3D5;
+    min-height: 100%;
+    padding-bottom: 20px;
+}

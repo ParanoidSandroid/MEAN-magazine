@@ -63,25 +63,6 @@ a:focus {
     color: white;
 }
 /*** Searchbar ***/
- .form-control {
-    border-radius: 20px;
-    background-color: #626262;
-    border: 1px solid #151515;
-}
-.form-control:focus {
-    background-color: white;
-}
-.my-searchbar {
-    margin: 10px 0px;
-    padding: 4px 0px 4px 20px;
-    border-radius: 20px;
-    background: none repeat scroll 0% 0% #FFF;
-    vertical-align: middle;
-}
-.searchbar {
-    background-color: #222;
-    padding-top: 5px;
-}
 .divider-vertical {
     width: 1px;
     margin: 0px;
@@ -168,10 +149,6 @@ a:focus {
     margin-left: 0;
     margin-right: 0;
 }
-#content {
-    min-height: 1000px;
-    background: none repeat scroll 0% 0% #E9EAED;
-}
 .pict {
     text-decoration:none;
     color:inherit;
@@ -252,11 +229,6 @@ a.pict, .pict a {
     padding-right: 15px;
 }
 /*** Sidebars ***/
- #sidebar-left, #sidebar-right {
-    background: none repeat scroll 0% 0% #D2D3D5;
-    min-height: 100%;
-    padding-bottom: 20px;
-}
 #sidebar-left img {
     max-width: 80%;
 }

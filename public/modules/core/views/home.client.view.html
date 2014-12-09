@@ -1,52 +1,43 @@
 <section data-ng-controller="HomeController">
     <section id="carousel" set-ng-animate="false">
-            <carousel interval="carouselInterval" ng-cloak>
-                <slide ng-repeat="article in slides">
-                    <a data-ng-href="#!/articles/{{article._id}}">
-                        <img ng-src="{{article.img}}" style="margin:auto;">
-                    </a>
-                    <div class="carousel-caption">
-                        <h4><a class="caption-link" href="#!/articles/{{article._id}}">{{article.title}}</a>
+        <carousel interval="carouselInterval" ng-cloak>
+            <slide ng-repeat="article in slides">
+                <a data-ng-href="#!/articles/{{article._id}}">
+                    <img ng-src="{{article.img}}" style="margin:auto;">
+                </a>
+                <div class="carousel-caption">
+                    <h4><a class="caption-link" href="#!/articles/{{article._id}}">{{article.title}}</a>
                         </h4>
-                        <p>{{article.summary}}</p>
-                    </div>
-                    <div class="carousel-caption-shadow carousel-caption"></div>
-                </slide>
-            </carousel>
-    </section>
-    <div id="content" class="col-md-8">
-                <div class="row headings">
-                    <h2>
-                        Πρόσφατα Άρθρα
-                    </h2>
+                    <p>{{article.summary}}</p>
                 </div>
-                <div ng-repeat="recent in recents">
-                    <div class="col-sm-6 col-md-4">
-                        <div class="article-cell" ng-cloak>
-                            <a data-ng-href="#!/articles/{{recent._id}}">
-                                <img class="img-responsive article-tile" ng-src="{{recent.img}}" alt="">
-                            </a>
-                            <h3 class="inner-headings"><a data-ng-href="#!/articles/{{recent._id}}">{{recent.title}}</a>
-                            </h3>
-                            <div class="inline" ng-repeat="tag in recent.tags">
-                                <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}">{{tag.name}}
-                                </span>
-                            </div>
-                            <p>
-                                <h5 class="articleMeta">
-                                    <a data-ng-href="#!/authors/{{recent.user._id}}">{{recent.name}}</a>
-                                    <!-- <span class="pull-right">{{recent.pubdate}}</span> -->
-                                </h5>
-                            </p>
-                            <div class="separator_tile_horizontal"></div>
-                            <p>
-                                <h4>
-                                    <small>{{recent.summary}}</small>
-                                </h4>
-                            </p>
-                        </div>
+                <div class="carousel-caption-shadow carousel-caption"></div>
+            </slide>
+        </carousel>
+    </section>
+    <section class="text-center">
+        <div class="row headings">
+            <h2>Πρόσφατα Άρθρα</h2>
+        </div>
+        <div ng-repeat="recent in recents">
+            <div class="col-sm-6 col-md-4">
+                <div class="article-cell" ng-cloak>
+                    <a data-ng-href="#!/articles/{{recent._id}}">
+                        <img class="img-responsive article-tile" ng-src="{{recent.img}}" alt="">
+                    </a>
+                    <h3 class="inner-headings"><a data-ng-href="#!/articles/{{recent._id}}">{{recent.title}}</a></h3>
+                    <div class="inline" ng-repeat="tag in recent.tags">
+                        <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}">{{tag.name}}</span>
                     </div>
-                    <!-- </div> -->
+                    <p>
+                        <h5 class="articleMeta"><a data-ng-href="#!/authors/{{recent.user._id}}">{{recent.name}}</a></h5>
+                    </p>
+                    <div class="separator_tile_horizontal"></div>
+                    <p>
+                        <h4><small>{{recent.summary}}</small></h4>
+                    </p>
                 </div>
             </div>
+            <!-- </div> -->
+        </div>
+    </section>
 </section>
