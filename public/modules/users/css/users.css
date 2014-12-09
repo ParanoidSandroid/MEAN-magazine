@@ -12,3 +12,12 @@
     right: 10px;
     position: absolute;
 }
+.author-item {
+	opacity: 0.7;
+}
+.author-item:hover {
+	opacity: 1;
+}
+.auth-name {
+	font-weight: bold;
+}

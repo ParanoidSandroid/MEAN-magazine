@@ -1,4 +1,4 @@
-<section id="main">
+<section data-ng-controller="AuthorsController" data-ng-init="find()" id="main">
     <section class="container-fluid">
         <div class="text-center" id="content" style="font-family: Cambria, Georgia, serif;">
             <h2>
@@ -52,8 +52,22 @@
 
             <h2>Αρθρογράφοι</h2>
             <div class="separator_horizontal"></div>
-            <div class="row">
-                <!-- authors -->
+            <!-- authors -->
+            <div data-ng-repeat="author in authors">
+                <div class="row">
+                    <div class="col-md-2 col-sm-6 col-md-offset-2">
+                        <a data-ng-href="#!/authors/{{author._id}}">
+                            <div class="container author-item">
+                                <img class="img-responsive" ng-src="author.img">
+                                <div class="auth-name">
+                                    <span data-ng-bind="author.displayName"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </section>
