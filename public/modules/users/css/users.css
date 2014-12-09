@@ -24,14 +24,16 @@
 .author-item:hover {
     opacity: 1;
 }
+img.auth-pic {
+	max-width: 100%;
+    max-height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .auth-name {
     font-weight: bold;
     font-size: 90%;
 }
 .profile-img {
     padding: 5px;
-    max-width: 100%;
-    max-height: 200px;
-    margin-left: auto;
-    margin-right: auto;
 }
