@@ -1,60 +1,48 @@
-<section data-ng-controller="AuthorsController" id="main">
-    <section class="container-fluid">
-        <div class="row">
+<section data-ng-controller="AuthorsController">
+    <section>
+        <div class="text-center">
             <!-- Author Page Content -->
-            <div id="content-article" class="col-md-8">
-                <article>
-                    <!-- Profile Header -->
-                    <header class="row headings">
-                        <div class="row">
-                            <div class="">
-                                <!-- Author's image -->
-                                <a ng-href="#!/authors/{{author._id}}/profile">
-                                    <img class="img-responsive" width="100" height="100" data-ng-src="{{author.img}}">
-                                </a>
-                            </div>
-                            <!-- Author's name -->
-                            <div class="col-xs-6 text-right">
-                                <span data-ng-bind="author.displayName"></span>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="separator"></div>
-                    </header>
+            <!-- Profile Header -->
+            <header class="headings">
+                <div class="col-md-5 profile-img">
+                    <!-- Author's image -->
+                    <a ng-href="#!/authors/{{author._id}}/profile">
+                        <img class="img-responsive" data-ng-src="{{author.img}}">
+                    </a>
+                </div>
+                <!-- Author's name -->
+                <div class="col-md-7">
+                    <span data-ng-bind="author.displayName"></span>
+                </div>
+                <br>
+                <div class="separator_horizontal"></div>
+            </header>
 
-                    <!-- Articles by this author -->
-                    <h3>Άρθρα</h3>
-                    <div data-ng-repeat="article in author.articles">
-                        <div class="col-sm-6 col-md-4">
-                            <div class="article-cell" ng-cloak>
-                                <a data-ng-href="#!/articles/{{article._id}}">
-                                    <img class="img-responsive article-tile" ng-src="{{article.img}}" alt="">
-                                </a>
-                                <a data-ng-href="#!/articles/{{article._id}}">
-                                    <h3 class="inner-headings" data-ng-bind="article.title"></h3>
-                                </a>
-                                <div class="inline" ng-repeat="tag in article.tags">
-                                    <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}">{{tag.name}}
-                                    </span>
-                                </div>
-                                <p>
-                                    <h5 class="articleMeta">
-                                        <!-- <a data-ng-href="#!/authors/{{recent.user._id}}">{{recent.name}}</a> -->
-                                        <span class="pull-right">{{article.created}}</span>
-                                    </h5>
-                                </p>
-                                <div class="separator_tile_horizontal"></div>
-                                <p>
-                                    <h4>
-                                        <small>{{article.summary}}</small>
-                                    </h4>
-                                </p>
-                            </div>
+            <!-- Articles by this author -->
+            <h3 class="headings">Άρθρα</h3>
+            <div data-ng-repeat="article in author.articles">
+                <div class="col-sm-6 col-md-4">
+                    <div class="article-cell" ng-cloak>
+                        <a data-ng-href="#!/articles/{{article._id}}">
+                            <img class="img-responsive article-tile" ng-src="{{article.img}}" alt="">
+                        </a>
+                        <a data-ng-href="#!/articles/{{article._id}}">
+                            <h3 class="inner-headings" data-ng-bind="article.title"></h3>
+                        </a>
+                        <div class="inline" ng-repeat="tag in article.tags">
+                            <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name"></span>
                         </div>
+                        <p>
+                            <h5 class="articleMeta">
+                                <span class="pull-right" data-ng-bind="article.created | date:'mediumDate'"></span>
+                            </h5>
+                        </p>
+                        <div class="separator_tile_horizontal"></div>
+                        <p>
+                            <h4><small>{{article.summary}}</small></h4>
+                        </p>
                     </div>
-
-
-                </article>
+                </div>
             </div>
         </div>
     </section>
