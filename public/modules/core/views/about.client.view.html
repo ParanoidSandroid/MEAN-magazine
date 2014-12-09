@@ -53,8 +53,8 @@
             <h2>Αρθρογράφοι</h2>
             <div class="separator_horizontal"></div>
             <!-- authors -->
-            <div data-ng-repeat="author in authors">
-                <div class="row">
+            <div class="row">
+                <div data-ng-repeat="author in authors" ng-if="author.displayName!='dev team'">
                     <div class="col-md-2 col-sm-6 col-md-offset-2">
                         <a data-ng-href="#!/authors/{{author._id}}">
                             <div class="container author-item">
@@ -65,9 +65,7 @@
                             </div>
                         </a>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </section>
