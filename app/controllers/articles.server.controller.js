@@ -83,6 +83,32 @@ exports.list = function(req, res) {
                 res.jsonp(articles);
             }
         });
+    }
+    else if (req.query.hasOwnProperty('tag')) {
+        Article.find({
+            tags: req.query.tag
+        }).sort('-created').populate('user', '_id displayName img roles').populate('tags').populate('category').exec(function(err, articles) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.jsonp(articles);
+            }
+        });
+    }
+    else if (req.query.hasOwnProperty('category')) {
+        Article.find({
+            category: req.query.category
+        }).sort('-created').populate('user', '_id displayName img roles').populate('tags').populate('category').exec(function(err, articles) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.jsonp(articles);
+            }
+        });
     } else {
         Article.find().sort('-created').populate('user', '_id displayName img roles').populate('tags').populate('category').exec(function(err, articles) {
             if (err) {

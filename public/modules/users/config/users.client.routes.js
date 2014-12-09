@@ -135,6 +135,20 @@ angular.module('users').config(['$stateProvider',
             data: {
                 requiresLogin: true
             }
+        }).
+        state('viewAuthor', {
+            url: '/authors/:authorId',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/authors/author.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         });
     }
 ]);

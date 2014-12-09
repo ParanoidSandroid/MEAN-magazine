@@ -62,6 +62,7 @@ exports.me = function(req, res) {
 exports.authorProfile = function(req, res) {
     var author = {};
 
+    author._id = req.profile._id;
     author.displayName = req.profile.displayName;
     author.email = req.profile.email;
     author.img = req.profile.img;
@@ -70,7 +71,7 @@ exports.authorProfile = function(req, res) {
     // Add the articles written by the author.
     Article.find({
         user: author._id
-    }).sort('-created').exec(function(err, articles) {
+    }).sort('-created').populate('tags').populate('category').exec(function(err, articles) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
