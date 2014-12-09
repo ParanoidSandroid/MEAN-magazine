@@ -1,7 +1,7 @@
 {% extends 'layout.server.view.html' %}
 
 {% block content %}
-    <section class="col-md-8 col-md-push-2" data-ui-view></section>
-    <section class="col-md-2 col-md-push-2" data-ui-view="rightbar"></section>
-    <section class="col-md-2 col-md-pull-10" data-ui-view="leftbar"></section>
+    <section id="content" class="col-md-8 col-md-push-2" data-ui-view></section>
+    <section id="rightbar" class="col-md-2 col-md-push-2" data-ui-view="rightbar"></section>
+    <section id="leftbar" class="col-md-2 col-md-pull-10" data-ui-view="leftbar"></section>
 {% endblock %}
