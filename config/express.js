@@ -19,7 +19,8 @@ var express = require('express'),
     config = require('./config'),
     consolidate = require('consolidate'),
     path = require('path'),
-    seo = require('mean-seo');
+    seo = require('mean-seo'),
+    multer = require ('multer');
 
 module.exports = function(db) {
     // Initialize express app
@@ -122,6 +123,9 @@ module.exports = function(db) {
 
     // Setting the app router and static folder
     app.use(express.static(path.resolve('./public')));
+    app.use(multer({
+        dest: path.resolve('./public/uploads')
+    }));
 
     // Globbing routing files
     config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {

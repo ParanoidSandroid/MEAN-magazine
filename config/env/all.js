@@ -28,7 +28,8 @@ module.exports = {
                 'public/lib/angular-ckeditor/angular-ckeditor.js',
                 'public/lib/underscore/underscore.js',
                 'public/lib/angular-easyfb/angular-easyfb.js',
-                'public/lib/angular-google-analytics/dist/angular-google-analytics.js'
+                'public/lib/angular-google-analytics/dist/angular-google-analytics.js',
+                'public/lib/ng-droplet/dist/ng-droplet.js'
             ]
         },
         css: [

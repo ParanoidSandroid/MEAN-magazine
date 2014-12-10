@@ -12,6 +12,9 @@ module.exports = function(app) {
         .get(articles.list)
         .post(users.requiresLogin, articles.create);
 
+    app.route('/articles/uploads')
+        .post(users.requiresLogin, articles.uploadImg);
+
     app.route('/articles/:articleId')
         .get(articles.read)
         .put(users.requiresLogin, articles.hasAuthorization, articles.update)

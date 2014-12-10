@@ -20,7 +20,8 @@ module.exports = {
                 'public/lib/angular-ckeditor/angular-ckeditor.min.js',
                 'public/lib/underscore/underscore-min.js',
                 'public/lib/angular-easyfb/angular-easyfb.min.js',
-                'public/lib/angular-google-analytics/dist/angular-google-analytics.min.js'
+                'public/lib/angular-google-analytics/dist/angular-google-analytics.min.js',
+                'public/lib/ng-droplet/dist/ng-droplet.min.js'
             ]
         },
         css: 'public/dist/application.min.css',

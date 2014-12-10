@@ -14,6 +14,7 @@
         "underscore": "~1.7.0",
         "bootstrap-social": "~4.8.0",
         "angular-easyfb": "~1.2.0",
-        "angular-google-analytics": "~0.0.9"
+        "angular-google-analytics": "~0.0.9",
+        "ng-droplet": "~0.5.1"
     }
 }
