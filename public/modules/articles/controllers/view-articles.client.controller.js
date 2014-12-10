@@ -6,19 +6,21 @@ angular.module('articles').controller('ViewArticlesController', ['$scope', '$sta
 
 
         $scope.remove = function(article) {
-            if (article) {
-                article.$remove();
+            var articles = Articles.query(function() {
+                if (article) {
+                    article.$remove();
 
-                for (var i in $scope.articles) {
-                    if ($scope.articles[i] === article) {
-                        $scope.articles.splice(i, 1);
+                    for (var i in articles) {
+                        if (articles[i] === article) {
+                            articles.splice(i, 1);
+                        }
                     }
+                } else {
+                    $scope.article.$remove(function() {
+                        $location.path('articles');
+                    });
                 }
-            } else {
-                $scope.article.$remove(function() {
-                    $location.path('articles');
-                });
-            }
+            });
         };
 
         $scope.findOne = function() {

@@ -1,8 +1,8 @@
-<section data-ng-controller="CategoriesController" data-ng-init="findOne()">
-    <div class="page-header">
+<section data-ng-controller="ViewCategoriesController" data-ng-init="findOne()">
+    <div class="page-header headings inline">
         <h1 data-ng-bind="category.name"></h1>
     </div>
-    <div class="pull-right" data-ng-show="authentication.user.roles[0] == 'admin'">
+    <div class="pull-right" data-ng-if="authentication.user.roles[0] == 'admin'">
         <a class="btn btn-primary" href="/#!/categories/{{category._id}}/edit">
             <i class="glyphicon glyphicon-edit"></i>
         </a>
@@ -10,12 +10,76 @@
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
-    <small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="category.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="category.user.displayName"></span>
-		</em>
-	</small>
+    <div class="row text-center">
+        <div data-ng-repeat="article in category.articles" data-ng-if="category.subcategories.length === 0">
+            <div class="col-sm-6 col-md-4">
+                <div class="article-cell" ng-cloak>
+                    <a data-ng-href="#!/articles/{{article._id}}">
+                        <img class="img-responsive article-tile" data-ng-src="{{article.img}}" alt="">
+                    </a>
+                    <h3 class="inner-headings">
+                        <a data-ng-href="#!/articles/{{article._id}}">
+                            <span data-ng-bind="article.title"></span>
+                        </a>
+                    </h3>
+                    <div class="inline" ng-repeat="tag in article.tags">
+                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
+                    </div>
+                    <p>
+                        <h5 class="articleMeta"><a data-ng-href="#!/authors/{{article.user._id}}">
+                            <span data-ng-bind="article.user.displayName"></span></a>
+                        </h5>
+                    </p>
+                    <p>
+                        <span data-ng-bind="article.created | date:'mediumDate'"></span>
+                    </p>
+                    <div class="separator_tile_horizontal"></div>
+                    <p>
+                        <h4><small><span data-ng-bind="article.summary"></span></small></h4>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div data-ng-repeat="subcategory in category.subcategories" data-ng-if="category.subcategories.length !== 0">
+            <h2 class="subcatHead" data-ng-bind="subcategory.name"></h2>
+            <div class="separator"></div>
+            <div data-ng-repeat="article in subcategory.articles">
+                <!-- <div data-ng-hide="($index > 5) && (!isOpen)"> -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="article-cell" ng-cloak>
+                        <a data-ng-href="#!/articles/{{article._id}}">
+                            <img class="img-responsive article-tile" data-ng-src="{{article.img}}" alt="">
+                        </a>
+                        <h3 class="inner-headings">
+                        <a data-ng-href="#!/articles/{{article._id}}">
+                            <span data-ng-bind="article.title"></span>
+                        </a>
+                    </h3>
+                        <div class="inline" ng-repeat="tag in article.tags">
+                            <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
+                        </div>
+                        <p>
+                            <h5 class="articleMeta"><a data-ng-href="#!/authors/{{article.user._id}}">
+                            <span data-ng-bind="article.user.displayName"></span></a>
+                        </h5>
+                        </p>
+                        <p>
+                            <span data-ng-bind="article.created | date:'mediumDate'"></span>
+                        </p>
+                        <div class="separator_tile_horizontal"></div>
+                        <p>
+                            <h4><small><span data-ng-bind="article.summary"></span></small></h4>
+                        </p>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+            <!--  <div data-ng-click="isOpen = !isOpen" data-ng-hide="subcategory.articles.length < 7" id="expander" ng-cloak>
+                <h4 data-ng-hide="isOpen" class="pull-right">Δείτε περισσότερα άρθρα&#32<i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                            </h4>
+                <h4 data-ng-hide="!isOpen" class="pull-right">Δείτε λιγότερα άρθρα&#32<i class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
+                            </h4>
+            </div> -->
+        </div>
+    </div>
 </section>
