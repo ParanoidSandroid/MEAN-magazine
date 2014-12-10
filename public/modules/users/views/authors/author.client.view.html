@@ -3,20 +3,22 @@
         <div class="text-center">
             <!-- Author Page Content -->
             <!-- Profile Header -->
-            <header class="headings">
-                <div class="col-md-5 profile-img">
-                    <!-- Author's image -->
-                    <a ng-href="#!/authors/{{author._id}}/profile">
-                        <img class="img-responsive" data-ng-src="{{author.img}}">
-                    </a>
-                </div>
-                <!-- Author's name -->
-                <div class="col-md-7">
-                    <span data-ng-bind="author.displayName"></span>
-                </div>
-                <br>
-                <div class="separator_horizontal"></div>
-            </header>
+            <div class="row">
+                <header class="headings">
+                    <div class="col-xs-5 profile-img">
+                        <!-- Author's image -->
+                        <a ng-href="#!/authors/{{author._id}}/profile">
+                            <img class="img-responsive" data-ng-src="{{author.img}}">
+                        </a>
+                    </div>
+                    <!-- Author's name -->
+                    <div class="col-xs-7 ">
+                        <h2 class="display-name"><span data-ng-bind="author.displayName"></span></h2>
+                    </div>
+                    <br>
+                </header>
+            </div>
+            <div class="separator_horizontal"></div>
 
             <!-- Articles by this author -->
             <h3 class="headings">Άρθρα</h3>

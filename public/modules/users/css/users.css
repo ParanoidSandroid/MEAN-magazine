@@ -32,5 +32,12 @@ img.auth-pic {
     font-size: 90%;
 }
 .profile-img {
-    padding: 5px;
+    padding: 15px;
+}
+.display-name {
+    /* to keep text centered */
+    text-align: center;
+    vertical-align: bottom;
+    display: inline-block;
+    padding-top: 100px;
 }
