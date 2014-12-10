@@ -82,5 +82,13 @@ exports.authorProfile = function(req, res) {
             res.jsonp(author);
         }
     });
+};
 
+exports.authorImg = function(req, res) {
+    var imgPath = req.files.file.path;
+    var splittedPath = imgPath.split('/');
+    imgPath = 'uploads' + '/' + splittedPath[splittedPath.length - 1];
+    res.status(200).jsonp({
+        path: imgPath
+    });
 };

@@ -1,11 +1,48 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication',
-    function($scope, $http, $location, Users, Authentication) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$timeout', 'Users', 'Authentication',
+    function($scope, $http, $location, $timeout, Users, Authentication) {
         $scope.user = Authentication.user;
 
         // If user is not signed in then redirect back home
         if (!$scope.user) $location.path('/');
+
+         // initialize image-uploader
+        $scope.interface = {};
+        $scope.uploadCount = 0;
+        $scope.success = false;
+        $scope.error = false;
+
+        // Listen for when the interface has been configured.
+        $scope.$on('$dropletReady', function whenDropletReady() {
+
+            $scope.interface.allowedExtensions(['png', 'jpg', 'bmp', 'gif', 'svg']);
+            $scope.interface.setRequestUrl('users/uploads');
+            $scope.interface.defineHTTPSuccess([/2.{2}/]);
+            $scope.interface.useArray(false);
+
+        });
+        // Listen for when the files have been successfully uploaded.
+        $scope.$on('$dropletSuccess', function onDropletSuccess(event, response, files) {
+            $scope.user.img = response.path;
+            $scope.uploadCount = files.length;
+            $scope.success = true;
+
+            $timeout(function timeout() {
+                $scope.success = false;
+            }, 5000);
+        });
+
+        // Listen for when the files have failed to upload.
+        $scope.$on('$dropletError', function onDropletError(event, response) {
+
+            $scope.error = true;
+            console.log(response);
+
+            $timeout(function timeout() {
+                $scope.error = false;
+            }, 5000);
+        });
 
         // Check if there are additional accounts
         $scope.hasConnectedAdditionalSocialAccounts = function(provider) {

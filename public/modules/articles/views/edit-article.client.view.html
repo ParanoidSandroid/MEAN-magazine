@@ -18,6 +18,37 @@
                         <input name="summary" type="text" data-ng-model="article.summary" id="summary" class="form-control" placeholder="Summary (optional)">
                     </div>
                 </div>
+                <section class="uploader-container">
+                    <section class="droplet" ng-class="{ uploading: interface.isUploading() }">
+                        <section class="toolbar">
+                            <input type="button" class="button upload-files" value="Upload Files" ng-click="interface.uploadFiles()" ng-hide="interface.isUploading()" ng-class="{ clickable: interface.isReady() }" />
+                            <input type="button" class="button upload-files" value="Uploading..." ng-show="interface.isUploading()" />
+                            <div class="add-files">
+                                <droplet-upload-single ng-model="interface"></droplet-upload-single>
+                            </div>
+                            <comment class="progress" ng-class="{ visible: interface.isUploading() }">
+                                Uploaded: {{interface.progress.percent}}%
+                            </comment>
+                        </section>
+                        <droplet ng-model="interface">
+                            <comment></comment>
+                            <section class="message success" ng-class="{ visible: success }" ng-click="success = false">
+                                Successfully uploaded {{uploadCount}} files.
+                            </section>
+                            <section class="message error" ng-class="{ visible: error }" ng-click="error = false">
+                                Failed to upload any of the files.
+                            </section>
+                            <ul class="files">
+                                <li ng-repeat="model in interface.getFiles(interface.FILE_TYPES.VALID)">
+                                    <droplet-preview ng-model="model"></droplet-preview>
+                                    <div class="delete" ng-click="model.deleteFile()">&times;</div>
+                                    <div class="size">{{model.file.size / 1024 / 1024 | number: 1}}MB</div>
+                                </li>
+                            </ul>
+                        </droplet>
+                    </section>
+                </section>
+
                 <div class="form-group" ng-class="{ 'has-error' : submitted && articleForm.content.$invalid}">
                     <label class="control-label" for="content">Content</label>
                     <div class="controls">
