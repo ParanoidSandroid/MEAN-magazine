@@ -26,7 +26,7 @@ module.exports = function(app) {
     app.route('/auth/signout').get(users.signout);
 
     // Setting up the admins api
-    app.route('/users').get(users.hasAuthorization(['admin']), users.list);
+    app.route('/users').get(users.list);
     app.route('/admins/:userId').post(users.hasAuthorization(['admin']), users.promoteToAdmin);
 
     // Setting the facebook oauth routes
