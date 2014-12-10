@@ -1,17 +1,17 @@
 <!-- Left Sidebar -->
-<div class="text-center" id="sidebar-left">
+<div data-ng-controller="LeftbarController" class="text-center" id="sidebar-left">
     <!-- Editorial -->
     <div class="row headings">
         <h3 class="pict">
-            <a href="#!/tags/editorial">Editorial</a>
+            <a href="#!/tags/54882a14d1076ddf1564bf5d">Editorial</a>
         </h3>
     </div>
     <div class="row" ng-cloak>
         <h4 class="inner-headings">
-            <a href="#!/articles?tag=tagID&limit=1" class="pict"></a>
+            <a data-ng-href="#!/articles/{{editorial._id}}" class="pict"><span data-ng-bind="editorial.title"></span></a>
         </h4>
-        <a href="#/articles">
-            <img class="img-renponsive" src="{{}}" alt="">
+        <a data-ng-href="#!/articles/{{editorial._id}}">
+            <img class="img-renponsive" data-ng-src="{{editorial.img}}" alt="">
         </a>
     </div>
     <!-- Picturesque -->
@@ -22,10 +22,10 @@
     </div>
     <div class="row" ng-cloak>
         <h4 class="inner-headings">
-            <a href="#!/" class="pict">taitoru</a>
+            <a data-ng-href="#!/articles/{{picturesque._id}}" class="pict"><span data-ng-bind="picturesque.title"></span></a>
         </h4>
-        <a href="#!/">
-            <img class="img-renponsive" src="{{picturesque.articles[0].imgPath}}" alt="">
+        <a data-ng-href="#!/articles/{{picturesque._id}}">
+            <img class="img-renponsive" data-ng-src="{{picturesque.img}}" alt="">
         </a>
     </div>
 </div>
