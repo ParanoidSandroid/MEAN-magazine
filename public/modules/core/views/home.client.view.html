@@ -26,10 +26,12 @@
                     </a>
                     <h3 class="inner-headings"><a data-ng-href="#!/articles/{{recent._id}}">{{recent.title}}</a></h3>
                     <div class="inline" ng-repeat="tag in recent.tags">
-                        <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}">{{tag.name}}</span>
+                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
                     </div>
                     <p>
-                        <h5 class="articleMeta"><a data-ng-href="#!/authors/{{recent.user._id}}">{{recent.name}}</a></h5>
+                        <h5 class="articleMeta"><a data-ng-href="#!/authors/{{recent.user._id}}"></a>
+                            <span data-ng-bind="recent.user.displayName">
+                        </h5>
                     </p>
                     <p>
                         <span data-ng-bind="recent.created | date:'mediumDate'"></span>
