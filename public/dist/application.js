@@ -4,7 +4,8 @@
 var ApplicationConfiguration = (function() {
     // Init module configuration options
     var applicationModuleName = 'skra-punk';
-    var applicationModuleVendorDependencies = ['ngResource', 'ui.router', 'ui.bootstrap', 'ui.utils'];
+    var applicationModuleVendorDependencies = ['ngResource', 'ui.router', 'ui.bootstrap', 'ezfb', 'ui.utils', 'angulartics',
+    'angulartics.google.analytics'];
 
     // Add a new vertical module
     var registerModule = function(moduleName, dependencies) {
@@ -28,9 +29,20 @@ var ApplicationConfiguration = (function() {
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider',
-    function($locationProvider) {
+// Configuring FB api
+// Configuring the google analytics
+angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProvider', '$locationProvider', '$analyticsProvider',
+    function(ezfbProvider, $locationProvider, $analyticsProvider) {
         $locationProvider.hashPrefix('!');
+
+        ezfbProvider.setLocale('el_GR');
+        ezfbProvider.setInitParams({
+            appdId: '296559977173451',
+            xfbml: true,
+            version: 'v2.0'
+        });
+
+        $analyticsProvider.virtualPageView(false);
     }
 ]);
 
@@ -88,28 +100,65 @@ angular.module('articles').config(['$stateProvider',
         $stateProvider.
         state('listArticles', {
             url: '/articles',
-            templateUrl: 'modules/articles/views/list-articles.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/articles/views/list-articles.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('createArticle', {
             url: '/articles/create',
-            templateUrl: 'modules/articles/views/create-article.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/articles/views/create-article.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('viewArticle', {
             url: '/articles/:articleId',
-            templateUrl: 'modules/articles/views/view-article.client.view.html'//,
-            // data: {
-            //     requiresLogin: true
-            // }
+            views: {
+                '': {
+                    templateUrl: 'modules/articles/views/view-article.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_relevant.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('editArticle', {
             url: '/articles/:articleId/edit',
-            templateUrl: 'modules/articles/views/edit-article.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/articles/views/edit-article.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
@@ -151,8 +200,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
         $scope.create = function() {
             var article = $scope.article;
-            if (article.hasOwnProperty('category') && article.category.hasOwnProperty('subcategory')) {
-                article.tags.push(article.subcategory);
+            if (article.hasOwnProperty('category')) {
+                if (article.hasOwnProperty('subcategory')) {
+                    article.tags.push(article.subcategory);
+                }
                 article.category = article.category._id;
             }
             if (article.tags.length) {
@@ -209,9 +260,11 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
                 var subcategory = $window._.findWhere($scope.article.tags, {
                     isSubcategory: true
                 });
-                $scope.article.subcategory = $window._.findWhere($scope.article.category.subcategories, {
-                    _id: subcategory._id
-                });
+                if (typeof subcategory !== 'undefined') {
+                    $scope.article.subcategory = $window._.findWhere($scope.article.category.subcategories, {
+                        _id: subcategory._id
+                    });
+                }
                 $scope.users = Users.query(function() {
                     $scope.article.user = $window._.findWhere($scope.users, {
                         _id: $scope.article.user._id
@@ -237,6 +290,41 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
             event.preventDefault();
             event.stopPropagation();
             $scope.datepickerOpened = true;
+        };
+    }
+]);
+
+'use strict';
+
+angular.module('articles').controller('ViewArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
+    function($scope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
+        $scope.authentication = Authentication;
+
+
+        $scope.remove = function(article) {
+            if (article) {
+                article.$remove();
+
+                for (var i in $scope.articles) {
+                    if ($scope.articles[i] === article) {
+                        $scope.articles.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.article.$remove(function() {
+                    $location.path('articles');
+                });
+            }
+        };
+
+        $scope.findOne = function() {
+            $scope.article = Articles.get({
+                articleId: $stateParams.articleId
+            });
+        };
+
+        $scope.trustAsHtml = function(content) {
+            return $sce.trustAsHtml(content);
         };
     }
 ]);
@@ -278,28 +366,65 @@ angular.module('categories').config(['$stateProvider',
             // User states
         state('listCategories', {
             url: '/categories',
-            templateUrl: 'modules/categories/views/list-categories.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/categories/views/list-categories.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('createCategory', {
             url: '/categories/create',
-            templateUrl: 'modules/categories/views/create-category.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/categories/views/create-category.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('viewCategory', {
             url: '/categories/:categoryId',
-            templateUrl: 'modules/categories/views/view-category.client.view.html'//,
-            // data: {
-            //     requiresLogin: true
-            // }
+            views: {
+                '': {
+                    templateUrl: 'modules/categories/views/view-category.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('editCategory', {
             url: '/categories/:categoryId/edit',
-            templateUrl: 'modules/categories/views/edit-category.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/categories/views/edit-category.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
@@ -420,7 +545,31 @@ angular.module('core')
             $stateProvider.
             state('home', {
                 url: '/',
-                templateUrl: 'modules/core/views/layout.client.view.html'
+                views: {
+                    '': {
+                        templateUrl: 'modules/core/views/home.client.view.html'
+                    },
+                    'rightbar': {
+                        templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                    },
+                    'leftbar': {
+                        templateUrl: 'modules/core/views/leftbar.client.view.html'
+                    }
+                }
+            }).
+            state('about', {
+                url: '/about',
+                views: {
+                    '': {
+                        templateUrl: 'modules/core/views/about.client.view.html'
+                    },
+                    'rightbar': {
+                        templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                    },
+                    'leftbar': {
+                        templateUrl: 'modules/core/views/leftbar.client.view.html'
+                    }
+                }
             });
         }
     ])
@@ -438,9 +587,12 @@ angular.module('core')
 
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
-    function($scope, Authentication, Menus) {
+angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', 'Categories',
+    function($scope, Authentication, Menus, Categories) {
         $scope.authentication = Authentication;
+        $scope.categories = Categories.query(function() {
+            $scope.categories = $scope.categories.reverse();
+        });
         $scope.isCollapsed = false;
         $scope.menu = Menus.getMenu('topbar');
 
@@ -458,10 +610,12 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 'use strict';
 
 
-angular.module('core').controller('LayoutController', ['$scope', 'Authentication',
-    function($scope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Articles',
+    function($scope, Authentication, Articles) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        $scope.slides = Articles.query({tag: '5480ffa699fe89ea050c0cbb'});
+        $scope.recents = Articles.query({limit: 10});
     }
 ]);
 
@@ -653,28 +807,65 @@ angular.module('tags').config(['$stateProvider',
         $stateProvider.
         state('listTags', {
             url: '/tags',
-            templateUrl: 'modules/tags/views/list-tags.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/tags/views/list-tags.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('createTag', {
             url: '/tags/create',
-            templateUrl: 'modules/tags/views/create-tag.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/tags/views/create-tag.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('viewTag', {
             url: '/tags/:tagId',
-            templateUrl: 'modules/tags/views/view-tag.client.view.html'//,
-            // data: {
-            //     requiresLogin: true
-            // }
+            views: {
+                '': {
+                    templateUrl: 'modules/tags/views/view-tag.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('editTag', {
             url: '/tags/:tagId/edit',
-            templateUrl: 'modules/tags/views/edit-tag.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/tags/views/edit-tag.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
@@ -753,6 +944,16 @@ angular.module('tags').controller('TagsController', ['$scope', '$stateParams', '
 
 'use strict';
 
+angular.module('tags').controller('ViewTagsController',['$scope', '$stateParams', 'Authentication', 'Articles', 'Tags',
+	function($scope, $stateParams, Authentication, Articles, Tags) {
+		$scope.authentication = Authentication;
+		$scope.tag = Tags.get({tagId: $stateParams.tagId});
+
+		$scope.articles = Articles.query({tag: $stateParams.tagId});
+	}
+]);
+'use strict';
+
 //Tags service used to communicate Tags REST endpoints
 angular.module('tags').factory('Tags', ['$resource',
     function($resource) {
@@ -802,7 +1003,7 @@ angular.module('users').config(['$httpProvider',
         // Set top bar menu items
         Menus.addMenuItem('topbar', 'Users', 'users', 'dropdown', '/users(/create)?', false, ['admin']);
         Menus.addSubMenuItem('topbar', 'users', 'List Users', 'users', 'menuItemURL', false, ['admin']);
-        Menus.addSubMenuItem('topbar', 'users', 'Add User', 'users/create', 'menuItemURL', false, ['admin']);
+        Menus.addSubMenuItem('topbar', 'users', 'Add User', 'signup', 'menuItemURL', false, ['admin']);
     }
 ]);
 
@@ -815,54 +1016,147 @@ angular.module('users').config(['$stateProvider',
         $stateProvider.
         state('profile', {
             url: '/settings/profile',
-            templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('password', {
             url: '/settings/password',
-            templateUrl: 'modules/users/views/settings/change-password.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/settings/change-password.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('accounts', {
             url: '/settings/accounts',
-            templateUrl: 'modules/users/views/settings/social-accounts.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
             }
         }).
         state('signup', {
             url: '/signup',
-            templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+                }
+            },
+            data: {
+                requiresLogin: true
+            }
         }).
         state('signin', {
             url: '/signin',
-            templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('forgot', {
             url: '/password/forgot',
-            templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('reset-invlaid', {
             url: '/password/reset/invalid',
-            templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('reset-success', {
             url: '/password/reset/success',
-            templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('reset', {
             url: '/password/reset/:token',
-            templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            }
         }).
         state('listUsers', {
             url: '/users',
-            templateUrl: 'modules/users/views/admin/list-users.client.view.html',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/admin/list-users.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
+            },
             data: {
                 requiresLogin: true
+            }
+        }).
+        state('viewAuthor', {
+            url: '/authors/:authorId',
+            views: {
+                '': {
+                    templateUrl: 'modules/users/views/authors/author.client.view.html'
+                },
+                'rightbar': {
+                    templateUrl: 'modules/core/views/rightbar_columns.client.view.html'
+                },
+                'leftbar': {
+                    templateUrl: 'modules/core/views/leftbar.client.view.html'
+                }
             }
         });
     }
@@ -903,6 +1197,17 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
     }
 ]);
 
+'use strict';
+
+angular.module('users').controller('AuthorsController', ['$scope', '$stateParams', 'Authors', 'Users',
+	function($scope, $stateParams, Authors, Users) {
+		$scope.author = Authors.get({authorId: $stateParams.authorId});
+
+		$scope.find = function() {
+			$scope.authors = Users.query();
+		};
+	}
+]);
 'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication',
@@ -1045,6 +1350,20 @@ angular.module('users').factory('Authentication', [
     }
 ]);
 
+'use strict';
+
+// Users service used for communicating with the users REST endpoint
+angular.module('users').factory('Authors', ['$resource',
+    function($resource) {
+        return $resource('authors/:authorId', {
+            authorId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
 'use strict';
 
 // Users service used for communicating with the users REST endpoint

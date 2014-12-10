@@ -18,14 +18,16 @@ module.exports = {
                 'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 'public/lib/ckeditor/ckeditor.js',
                 'public/lib/angular-ckeditor/angular-ckeditor.min.js',
-                'public/lib/underscore/underscore-min.js'
+                'public/lib/underscore/underscore-min.js',
+                'public/lib/angular-easyfb/angular-easyfb.min.js',
+                'public/lib/angular-google-analytics/dist/angular-google-analytics.min.js'
             ]
         },
         css: 'public/dist/application.min.css',
         js: 'public/dist/application.min.js'
     },
     facebook: {
-        clientID: process.env.FACEBOOK_ID || 'APP_ID',
+        clientID: process.env.FACEBOOK_ID || '296559977173451',
         clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
         callbackURL: 'http://localhost:3000/auth/facebook/callback'
     },

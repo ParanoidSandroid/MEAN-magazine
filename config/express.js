@@ -18,7 +18,8 @@ var express = require('express'),
     flash = require('connect-flash'),
     config = require('./config'),
     consolidate = require('consolidate'),
-    path = require('path');
+    path = require('path'),
+    seo = require('mean-seo');
 
 module.exports = function(db) {
     // Initialize express app
