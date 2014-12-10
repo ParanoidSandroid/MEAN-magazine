@@ -8,9 +8,10 @@ angular.module('categories').controller('ViewCategoriesController', ['$scope', '
             categoryId: $stateParams.categoryId
         }, function() {
             if ($scope.category.subcategories.length !== 0) {
-                for (var subcategory in $scope.category.subcategories) {
-                    $scope.category.subcategories[subcategory].articles = Articles.query({
-                        tag: subcategory._id
+                for (var i=0; i<$scope.category.subcategories.length; i++) {
+                    var subcategories = $scope.category.subcategories;
+                    subcategories[i].articles = Articles.query({
+                        tag: subcategories[i]._id
                     });
                 }
             } else {

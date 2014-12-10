@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div data-ng-repeat="subcategory in category.subcategories" data-ng-if="category.subcategories.length !== 0">
+        <div class="row" data-ng-repeat="subcategory in category.subcategories" data-ng-if="category.subcategories.length !== 0">
             <h2 class="subcatHead" data-ng-bind="subcategory.name"></h2>
             <div class="separator"></div>
             <div data-ng-repeat="article in subcategory.articles">
