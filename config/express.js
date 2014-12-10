@@ -113,6 +113,12 @@ module.exports = function(db) {
     app.use(helmet.ienoopen());
     app.disable('x-powered-by');
 
+    // Setting up mean-seo
+    app.use(seo({
+        cacheClient: 'disk',
+        cacheDuration: 2 * 60 * 60 * 24 * 1000  // cache duration in milliseconds
+    }));
+
     // Setting the app router and static folder
     app.use(express.static(path.resolve('./public')));
 
