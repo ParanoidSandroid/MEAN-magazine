@@ -32,7 +32,7 @@
                             <h3 class="inner-headings" data-ng-bind="article.title"></h3>
                         </a>
                         <div class="inline" ng-repeat="tag in article.tags">
-                            <span class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name"></span>
+                            <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
                         </div>
                         <p>
                             <span data-ng-bind="article.created | date:'mediumDate'"></span>
