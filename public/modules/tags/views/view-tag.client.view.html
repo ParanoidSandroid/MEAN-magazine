@@ -1,6 +1,7 @@
 <section data-ng-controller="ViewTagsController" data-ng-init="find()">
     <div class="page-header headings inline">
         <h1 data-ng-bind="tag.name"></h1>
+        <div class="separator"></div>
     </div>
     <div class="text-right inline" data-ng-if="authentication.user">
         <a class="btn btn-primary" data-ng-href="/#!/tags/{{tag._id}}/edit">

@@ -1,5 +1,5 @@
 <section data-ng-controller="ViewCategoriesController" data-ng-init="findOne()">
-    <div class="page-header headings inline">
+    <div class="page-header headings inline text-center">
         <h1 data-ng-bind="category.name"></h1>
     </div>
     <div class="pull-right" data-ng-if="authentication.user.roles[0] == 'admin'">
@@ -10,7 +10,7 @@
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
-    <div class="row text-center">
+    <div class="text-center">
         <div data-ng-repeat="article in category.articles" data-ng-if="category.subcategories.length === 0">
             <div class="col-sm-6 col-md-4">
                 <div class="article-cell" ng-cloak>
