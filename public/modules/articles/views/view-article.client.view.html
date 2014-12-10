@@ -1,5 +1,5 @@
 <section data-ng-controller="ViewArticlesController" data-ng-init="findOne()">
-    <header class="page-header">
+    <header class="page-header headings">
         <h1 class="text-center" data-ng-bind="article.title"></h1>
 
         <div class="pull-right" data-ng-if="authentication.user._id == article.user._id || authentication.user.roles[0] == 'admin'">
