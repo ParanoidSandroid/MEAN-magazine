@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScape', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
+angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
     function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
         $scope.authentication = Authentication;
 
