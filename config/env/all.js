@@ -3,8 +3,8 @@
 module.exports = {
     app: {
         title: 'Skra-punk',
-        description: 'Full-Stack',
-        keywords: 'MongoDB, Express, AngularJS, Node.js'
+        description: 'Web magazine',
+        keywords: 'skra-punk, skra, punk, Σκρα-punk, Σκρα, πανκ, Σκρά'
     },
     port: process.env.PORT || 3000,
     templateEngine: 'swig',
