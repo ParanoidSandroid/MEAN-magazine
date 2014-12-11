@@ -26,12 +26,6 @@ module.exports = function(db) {
     // Initialize express app
     var app = express();
 
-    // Setting up mean-seo
-    app.use(seo({
-        cacheClient: 'disk',
-        cacheDuration: 2 * 60 * 60 * 24 * 1000  // cache duration in milliseconds
-    }));
-
     // Globbing model files
     config.getGlobbedFiles('./app/models/**/*.js').forEach(function(modelPath) {
         require(path.resolve(modelPath));
@@ -125,6 +119,12 @@ module.exports = function(db) {
     app.use(express.static(path.resolve('./public')));
     app.use(multer({
         dest: path.resolve('./public/uploads')
+    }));
+
+    // Setting up mean-seo
+    app.use(seo({
+        cacheClient: 'disk',
+        cacheDuration: 2 * 60 * 60 * 24 * 1000  // cache duration in milliseconds
     }));
 
     // Globbing routing files
