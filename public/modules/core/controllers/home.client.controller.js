@@ -13,4 +13,3 @@ angular.module('core').controller('HomeController', ['$scope', '$rootScope', 'Au
 
     }
 ]);
-a
