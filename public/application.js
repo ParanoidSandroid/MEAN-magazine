@@ -14,7 +14,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProv
         ezfbProvider.setInitParams({
             appdId: '296559977173451',
             xfbml: true,
-            version: 'v2.0'
+            version: 'v2.1'
         });
 
         AnalyticsProvider.setAccount('UA-46126105-1');
@@ -26,7 +26,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProv
 
 // Because we are relying on automatic page tracking, we need to inject
 // Analytics al least once in our application.
-angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', function(Analytics) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', '$rootScope', function(Analytics, $rootScope) {
+    $rootScope.title = '';
 }]);
 
 //Then define the init function for starting up the application

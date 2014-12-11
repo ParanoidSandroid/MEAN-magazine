@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('articles').controller('ViewArticlesController', ['$scope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
-    function($scope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
+angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScape', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
+    function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
         $scope.authentication = Authentication;
 
 
@@ -26,6 +26,8 @@ angular.module('articles').controller('ViewArticlesController', ['$scope', '$sta
         $scope.findOne = function() {
             $scope.article = Articles.get({
                 articleId: $stateParams.articleId
+            }, function() {
+                $rootScope.title = $scope.article.title;
             });
         };
 
