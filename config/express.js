@@ -59,7 +59,7 @@ module.exports = function(db) {
 
     // Set swig as the template engine
     app.engine('server.view.html', consolidate[config.templateEngine]);
-    swig.setDefaults({ varControls: ['<%=', '%>'] });
+    swig.setDefaults({ varControls: ['<%', '%>'] });
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
