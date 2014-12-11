@@ -18,6 +18,7 @@ var express = require('express'),
     flash = require('connect-flash'),
     config = require('./config'),
     consolidate = require('consolidate'),
+    swig = require('swig'),
     path = require('path'),
     seo = require('mean-seo'),
     multer = require ('multer');
@@ -57,8 +58,8 @@ module.exports = function(db) {
     app.set('showStackError', true);
 
     // Set swig as the template engine
-    consolidate.swig.setDefaults({ varControls: ['<%=', '%>'] });
     app.engine('server.view.html', consolidate[config.templateEngine]);
+    swig.setDefaults({ varControls: ['<%=', '%>'] });
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
