@@ -28,6 +28,9 @@ angular.module('articles').controller('ViewArticlesController', ['$scope', '$roo
                 articleId: $stateParams.articleId
             }, function() {
                 $rootScope.title = $scope.article.title;
+                $rootScope.image = $scope.article.img;
+                $rootScope.articleTitle = $scope.article.title;
+                $rootScope.articleDescription = $scope.article.summary;
             });
         };
 

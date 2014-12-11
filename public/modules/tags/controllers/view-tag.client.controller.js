@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('tags').controller('ViewTagsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles', 'Tags',
-    function($scope, $stateParams, $location, Authentication, Articles, Tags) {
+angular.module('tags').controller('ViewTagsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Articles', 'Tags',
+    function($scope, $rootScope, $stateParams, $location, Authentication, Articles, Tags) {
         $scope.authentication = Authentication;
         $scope.tag = Tags.get({
             tagId: $stateParams.tagId

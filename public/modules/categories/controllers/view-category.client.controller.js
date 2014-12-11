@@ -1,12 +1,13 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('ViewCategoriesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Categories', 'Articles',
-    function($scope, $stateParams, $location, $window, Authentication, Categories, Articles) {
+angular.module('categories').controller('ViewCategoriesController', ['$scope', '$rootScope', '$stateParams', '$location', '$window', 'Authentication', 'Categories', 'Articles',
+    function($scope, $rootScope, $stateParams, $location, $window, Authentication, Categories, Articles) {
         $scope.authentication = Authentication;
         $scope.category = Categories.get({
             categoryId: $stateParams.categoryId
         }, function() {
+            $rootScope.title = $scope.category.name;
             if ($scope.category.subcategories.length !== 0) {
                 for (var i=0; i<$scope.category.subcategories.length; i++) {
                     var subcategories = $scope.category.subcategories;

@@ -27,7 +27,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProv
 // Because we are relying on automatic page tracking, we need to inject
 // Analytics al least once in our application.
 angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', '$rootScope', function(Analytics, $rootScope) {
-    $rootScope.title = '';
+    $rootScope.title = 'site';
+    $rootScope.image = '/modules/core/img/brand/zymbra.jpg';
+    $rootScope.articleTitle = '';
+    $rootScope.articleDescription = '';
 }]);
 
 //Then define the init function for starting up the application
