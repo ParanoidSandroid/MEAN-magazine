@@ -54,7 +54,7 @@
             <div class="separator_horizontal"></div>
             <!-- authors -->
             <div class="row">
-                <div data-ng-repeat="author in authors | orderBy:author.displayName" data-ng-if="author.displayName!='dev team'">
+                <div data-ng-repeat="author in authors | orderBy:'displayName'" data-ng-if="author.displayName!='dev team'">
                     <div class="col-md-4 col-sm-6">
                         <a data-ng-href="#!/authors/{{author._id}}">
                             <div class="author-item">
