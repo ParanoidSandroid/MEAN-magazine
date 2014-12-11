@@ -23,6 +23,15 @@
                     <label for="image">Image</label>
                     <input ng-readonly="true" type="text" id="image" name="image" class="form-control" data-ng-model="user.img" placeholder="Image path">
                 </div>
+                <div class="text-center form-group">
+                    <button type="submit" class="btn btn-large btn-primary">Save Profile</button>
+                </div>
+                <div data-ng-show="success" class="text-center text-success">
+                    <strong>Profile Saved Successfully</strong>
+                </div>
+                <div data-ng-show="error" class="text-center text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
             </fieldset>
         </form>
     </div>
@@ -56,13 +65,4 @@
             </droplet>
         </section>
     </section>
-    <div class="text-center form-group">
-        <button type="submit" class="btn btn-large btn-primary">Save Profile</button>
-    </div>
-    <div data-ng-show="success" class="text-center text-success">
-        <strong>Profile Saved Successfully</strong>
-    </div>
-    <div data-ng-show="error" class="text-center text-danger">
-        <strong data-ng-bind="error"></strong>
-    </div>
 </section>
