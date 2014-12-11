@@ -28,7 +28,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProv
 // Analytics al least once in our application.
 angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', '$rootScope', function(Analytics, $rootScope) {
     $rootScope.title = 'site';
-    $rootScope.image = '/modules/core/img/brand/zymbra.jpg';
+    $rootScope.image = 'modules/core/img/brand/zymbra.jpg';
     $rootScope.articleTitle = '';
     $rootScope.articleDescription = '';
 }]);
