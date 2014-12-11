@@ -57,6 +57,7 @@ module.exports = function(db) {
     app.set('showStackError', true);
 
     // Set swig as the template engine
+    consolidate.swig.setDefaults({ varControls: ['<%=', '%>'] });
     app.engine('server.view.html', consolidate[config.templateEngine]);
 
     // Set views path and view engine
