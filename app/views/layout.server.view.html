@@ -14,6 +14,12 @@
     <meta name="keywords" content="<%keywords%>">
     <meta name="description" content="<%description%>">
 
+    <!-- Twitter META -->
+    <meta name="twitter:title" content="{{articleTitle}}">
+    <meta name="twitter:description" content="{{articleDescription}}">
+    <meta name="twitter:url" content="<%url%>">
+    <meta name="twitter:image" content="http://skra-punk.com/{{image}}">
+
     <!-- Facebook META -->
     <meta property="fb:app_id" content="<%facebookAppId%>">
     <meta property="og:site_name" content="<%title%>">
@@ -61,7 +67,7 @@
 
     <!--Embedding The User Object-->
     <script type="text/javascript">
-    var user = <% user | json | safe }};
+    var user = <% user | json | safe %>;
     </script>
 
     <!--Application JavaScript Files-->
