@@ -1,4 +1,4 @@
-<section data-ng-init="findOne()">
+<section data-ng-init="findOne()" data-ng-controller="ViewArticlesController">
     <header class="page-header headings">
         <h1 class="text-center" data-ng-bind="article.title"></h1>
 
@@ -28,15 +28,15 @@
 
         <span class="separator_horizontal"></span>
         <div class="">
-            <span ezfb-xfbml data-ng-if="fbLike">
+            <span ezfb-xfbml>
             <span class="fb-like pull-left" data-href="http://skra-punk.com/#!/articles/{{article._id}}" data-layout="standard" data-action="like" data-show_faces="true" data-share="true"></span>
             </span>
         </div>
     </header>
     <div class="lead" data-ng-bind-html="trustAsHtml(article.content)"></div>
     <div class="">
-        <span ezfb-xfbml data-ng-if="fbLike">
-         <span class="fb-comments" data-href="http://skra-punk.com/#!/articles/{{article._id}}" data-numposts="10" data-colorscheme="light"></span>
         <span ezfb-xfbml>
+         <span class="fb-comments" data-href="http://skra-punk.com/#!/articles/{{article._id}}" data-numposts="10" data-colorscheme="light"></span>
+        </span ezfb-xfbml>
     </div>
 </section>

@@ -1,10 +1,8 @@
 'use strict';
 
-angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles', 'fbLike',
-    function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles, fbLike) {
+angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
+    function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
         $scope.authentication = Authentication;
-        $scope.fbLike = fbLike;
-
 
         $scope.remove = function(article) {
             var articles = Articles.query(function() {
@@ -30,6 +28,7 @@ angular.module('articles').controller('ViewArticlesController', ['$scope', '$roo
             }, function() {
                 $rootScope.title = $scope.article.title;
                 $rootScope.image = $scope.article.img;
+                $rootScope.contentUrl = $location.url();
                 $rootScope.articleTitle = $scope.article.title;
                 $rootScope.articleDescription = $scope.article.summary;
             });
