@@ -13,7 +13,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProv
         ezfbProvider.setLocale('el_GR');
         ezfbProvider.setInitParams({
             appdId: '296559977173451',
-            xfbml: true,
+            // xfbml: true,
             version: 'v2.1'
         });
 
