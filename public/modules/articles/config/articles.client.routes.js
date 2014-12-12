@@ -3,6 +3,17 @@
 // Setting up route
 angular.module('articles').config(['$stateProvider',
     function($stateProvider) {
+
+        var genResolveRandomBooleanAsync = function() {
+            return function($timeout, $q) {
+                var dfd = $q.defer();
+                $timeout(function() {
+                    dfd.resolve(true);
+                }, 50);
+                return dfd.promise;
+            };
+        };
+
         // Articles state routing
         $stateProvider.
         state('listArticles', {
@@ -50,11 +61,10 @@ angular.module('articles').config(['$stateProvider',
                 },
                 'leftbar': {
                     templateUrl: 'modules/core/views/leftbar.client.view.html'
+                },
+                resolve: {
+                    fbLike: genResolveRandomBooleanAsync()
                 }
-                // ,
-                // resolve: {
-                //     fbLike: genResolveRandomBooleanAsync('viewArticle')
-                // }
             }
         }).
         state('editArticle', {

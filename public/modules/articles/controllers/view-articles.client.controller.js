@@ -1,10 +1,9 @@
 'use strict';
 
-angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles', 'ezfb',
-    function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles, ezfb) {
+angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles', 'fbLike',
+    function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles, fbLike) {
         $scope.authentication = Authentication;
-
-        ezfb.XFBML.parse();
+        $scope.fbLike = fbLike;
 
 
         $scope.remove = function(article) {
