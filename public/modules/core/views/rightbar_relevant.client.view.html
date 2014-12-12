@@ -1,20 +1,28 @@
 <!-- Right Sidebar -->
-<section class="text-center">
+<section data-ng-controller="RelevantController" class="text-center sidebar-right" >
     <div class="row headings">
         <h3>
             Δείτε επίσης:
         </h3>
-        <div ng-repeat="relevant in relevants">
-            <div class="side-article">
-                <a ng-href="#!/articles/articleID">
-                    <img class="img-responsive article-tile" ng-src="{{relevant.imgPath}}" alt="">
-                </a>
-                <h3 class="inner-headings"><a href="#/read/{{relevant.url}}">{{relevant.title}}</a>
-                </h3>
-                <h4 class="articleMeta">
-                    <a href="#!/authors/{{relevant.authorUrl}}">{{relevant.name}}</a>
-                </h4>
-                <p>{{relevant.summary}}</p>
+
+        <div data-ng-repeat="relevant in relevants | orderBy:relativity:true | limitTo:5 " data-ng-if="relevant._id !== article._id">
+            <div class="row sidebar">
+                <div class="side-article">
+                    <a data-ng-href="#!/articles/{{relevant._id}}">
+                        <img class="img-responsive article-tile" data-ng-src="{{relevant.img}}" alt="">
+                    </a>
+                    <h3 class="inner-headings">
+                        <a data-ng-href="#!/articles/{{relevant._id}}">
+                            <span data-ng-bind="relevant.title"></span>
+                        </a>
+                    </h3>
+                    <h4 class="articleMeta">
+                        <a href="#!/authors/{{relevant.user._id}}">
+                            <span data-ng-bind="relevant.user.displayName"></span>
+                        </a>
+                    </h4>
+                    <p><span data-ng-bind="relevant.summary"></span></p>
+                </div>
             </div>
         </div>
     </div>

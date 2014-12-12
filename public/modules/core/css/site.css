@@ -240,7 +240,7 @@ a.pict, .pict a {
     margin-right: auto;
     margin-left: auto;
 }
-#sidebar-right img {
+.sidebar-right img {
     max-width: 100%;
     margin-right: auto;
     margin-left: auto;
