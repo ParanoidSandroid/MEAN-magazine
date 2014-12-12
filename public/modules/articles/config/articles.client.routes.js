@@ -54,16 +54,17 @@ angular.module('articles').config(['$stateProvider',
             url: '/articles/:articleId',
             views: {
                 '': {
-                    templateUrl: 'modules/articles/views/view-article.client.view.html'
+                    templateUrl: 'modules/articles/views/view-article.client.view.html',
+                    resolve: {
+                        fbLike: genResolveRandomBooleanAsync()
+                    },
+                    controller: 'ViewArticlesController'
                 },
                 'rightbar': {
                     templateUrl: 'modules/core/views/rightbar_relevant.client.view.html'
                 },
                 'leftbar': {
                     templateUrl: 'modules/core/views/leftbar.client.view.html'
-                },
-                resolve: {
-                    fbLike: genResolveRandomBooleanAsync()
                 }
             }
         }).
