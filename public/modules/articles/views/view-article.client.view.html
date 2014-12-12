@@ -28,13 +28,17 @@
 
         <span class="separator_horizontal"></span>
         <div class="">
+            <span ezfb-xfbml>
             <fb:like class="pull-left" href="http://skra-punk.com/#!/articles/{{article._id}}" layout="standard" action="like" show_faces="true" share="true"></fb:like>
             <div class="fb-like" data-send="true" data-width="450" data-show-faces="true">
             </div>
+            </span>
         </div>
     </header>
     <div class="lead" data-ng-bind-html="trustAsHtml(article.content)"></div>
     <div class="">
-        <fb:comments class="fb-comments" href="http://skra-punk.com/#!/articles/{{article._id}}" numposts="10" colorscheme="light"></fb:comments>
+        <span ezfb-xfbml>
+         <fb:comments class="fb-comments" href="http://skra-punk.com/#!/articles/{{article._id}}" numposts="10" colorscheme="light"></fb:comments>
+        <span ezfb-xfbml>
     </div>
 </section>

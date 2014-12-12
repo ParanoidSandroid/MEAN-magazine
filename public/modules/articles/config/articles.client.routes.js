@@ -51,6 +51,10 @@ angular.module('articles').config(['$stateProvider',
                 'leftbar': {
                     templateUrl: 'modules/core/views/leftbar.client.view.html'
                 }
+                // ,
+                // resolve: {
+                //     fbLike: genResolveRandomBooleanAsync('viewArticle')
+                // }
             }
         }).
         state('editArticle', {
