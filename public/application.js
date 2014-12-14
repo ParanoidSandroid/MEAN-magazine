@@ -4,18 +4,10 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-// Configuring FB api
 // Configuring the google analytics
-angular.module(ApplicationConfiguration.applicationModuleName).config(['ezfbProvider', '$locationProvider', 'AnalyticsProvider',
-    function(ezfbProvider, $locationProvider, AnalyticsProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', 'AnalyticsProvider',
+    function($locationProvider, AnalyticsProvider) {
         $locationProvider.hashPrefix('!');
-
-        ezfbProvider.setLocale('el_GR');
-        ezfbProvider.setInitParams({
-            appdId: '296559977173451',
-            xfbml: true,
-            version: 'v2.1'
-        });
 
         AnalyticsProvider.setAccount('UA-46126105-1');
         AnalyticsProvider.trackPages(true);

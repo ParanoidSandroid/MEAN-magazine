@@ -2,6 +2,7 @@
 
 angular.module('articles').controller('ViewArticlesController', ['$scope', '$rootScope', '$stateParams', '$location', '$sce', '$filter', '$window', 'Authentication', 'Articles',
     function($scope, $rootScope, $stateParams, $location, $sce, $filter, $window, Authentication, Articles) {
+        $window.FB.XFBML.parse();
         $scope.authentication = Authentication;
 
         $scope.remove = function(article) {

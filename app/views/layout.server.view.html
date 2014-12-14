@@ -39,8 +39,7 @@
 
     <!--Application CSS Files-->
     {% for cssFile in cssFiles %}
-    <link rel="stylesheet" href="<%cssFile%>">
-    {% endfor %}
+    <link rel="stylesheet" href="<%cssFile%>"> {% endfor %}
 
     <!-- HTML5 Shim -->
     <!--[if lt IE 9]>
@@ -50,7 +49,27 @@
 
 <body class="ng-cloak">
 
-    <div id="fb-root"></div>
+    <!-- Initilizing facebook SDK -->
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '296559977173451',
+            xfbml: true,
+            version: 'v2.1'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/el_GR/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <header data-ng-controller="HeaderController" data-ng-include="'/modules/core/views/header.client.view.html'">
     </header>
@@ -59,19 +78,18 @@
             {% block content %}{% endblock %}
         </section>
     </section>
-      <footer data-ng-include="'/modules/core/views/footer.client.view.html'" data-ng-cloak>
+    <footer data-ng-include="'/modules/core/views/footer.client.view.html'" data-ng-cloak>
     </footer>
 
     <!--Embedding The User Object-->
     <script type="text/javascript">
-    var user = <% user | json | safe %>;
+    var user = <% user | json | safe %> ;
     </script>
 
     <!--Application JavaScript Files-->
     {% for jsFile in jsFiles %}
     <script type="text/javascript" src="<%jsFile%>"></script>
-    {% endfor %}
-    {% if process.env.NODE_ENV === 'development' %}
+    {% endfor %} {% if process.env.NODE_ENV === 'development' %}
     <!--Livereload script rendered -->
     <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
     {% endif %}

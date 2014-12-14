@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
     // Init module configuration options
     var applicationModuleName = 'skra-punk';
-    var applicationModuleVendorDependencies = ['ngResource', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ezfb', 'angular-google-analytics'];
+    var applicationModuleVendorDependencies = ['ngResource', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angular-google-analytics'];
 
     // Add a new vertical module
     var registerModule = function(moduleName, dependencies) {
