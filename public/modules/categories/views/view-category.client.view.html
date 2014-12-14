@@ -12,7 +12,7 @@
     </div>
     <div class="text-center">
         <div data-ng-repeat="article in category.articles" data-ng-if="category.subcategories.length === 0">
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6">
                 <div class="article-cell" ng-cloak>
                     <a data-ng-href="#!/articles/{{article._id}}">
                         <img class="img-responsive article-tile" data-ng-src="{{article.img}}" alt="">
@@ -23,7 +23,7 @@
                         </a>
                     </h3>
                     <div class="inline" ng-repeat="tag in article.tags">
-                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
+                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;font-size:95%;"></a>
                     </div>
                     <p>
                         <h5 class="articleMeta"><a data-ng-href="#!/authors/{{article.user._id}}">
@@ -45,7 +45,7 @@
             <div class="separator"></div>
             <div data-ng-repeat="article in subcategory.articles">
                 <!-- <div data-ng-hide="($index > 5) && (!isOpen)"> -->
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6">
                     <div class="article-cell" ng-cloak>
                         <a data-ng-href="#!/articles/{{article._id}}">
                             <img class="img-responsive article-tile" data-ng-src="{{article.img}}" alt="">
@@ -56,7 +56,7 @@
                         </a>
                     </h3>
                         <div class="inline" ng-repeat="tag in article.tags">
-                            <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
+                            <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;font-size:95%;"></a>
                         </div>
                         <p>
                             <h5 class="articleMeta"><a data-ng-href="#!/authors/{{article.user._id}}">

@@ -1,5 +1,5 @@
 <section data-ng-init="findOne()" data-ng-controller="ViewArticlesController">
-    <header class="page-header headings">
+    <header class="page-header headings" id="content-article" style="padding:30px;border-radius:20px;">
         <h1 class="text-center" data-ng-bind="article.title"></h1>
 
         <div class="pull-right" data-ng-if="authentication.user._id == article.user._id || authentication.user.roles[0] == 'admin'">
@@ -11,18 +11,18 @@
             </a>
         </div>
         <small>
-        <em class="text-muted col-xs-6">
+        <em class="text-muted col-xs-6" style="font-size:110%;">
             Published on
             <span data-ng-bind="article.created | date:'fullDate'"></span>
             <a data-ng-href="#!/authors/{{article.user._id}}">
-                <img class="img-responsive" width="50" height="50" data-ng-src="{{article.user.img}}">
+                <img class="img-responsive" width="60" data-ng-src="{{article.user.img}}">
                 <span data-ng-bind="article.user.displayName"></span>
             </a>
         </em>
         </small>
         <div class="col-xs-6 text-right" ng-cloak>
             <div class="inline" ng-repeat="tag in article.tags">
-                <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name"></a>
+                <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="font-size:95%;"></a>
             </div>
         </div>
 
@@ -31,9 +31,12 @@
             <span ezfb-xfbml>
             <span class="fb-like pull-left" data-href="http://skra-punk.com/#!/articles/{{article._id}}" data-layout="standard" data-action="like" data-show_faces="true" data-share="true"></span>
             </span>
+
+            <br><br>
         </div>
     </header>
-    <div class="lead" data-ng-bind-html="trustAsHtml(article.content)"></div>
+    <!-- <div class="separator"></div> -->
+    <div class="lead" data-ng-bind-html="trustAsHtml(article.content)" id="content-article" style="padding:25px;border-radius:20px;"></div>
     <div class="">
         <span ezfb-xfbml>
          <span class="fb-comments" data-href="http://skra-punk.com/#!/articles/{{article._id}}" data-numposts="10" data-colorscheme="light"></span>

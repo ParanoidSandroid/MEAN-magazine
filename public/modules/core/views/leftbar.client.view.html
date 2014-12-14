@@ -1,18 +1,28 @@
 <!-- Left Sidebar -->
-<div data-ng-controller="LeftbarController" class="text-center" id="sidebar-left">
+<div data-ng-controller="LeftbarController" class="text-center sidebar-left">
     <!-- Editorial -->
     <div class="row headings">
         <h3 class="pict">
             <a href="#!/tags/54882a14d1076ddf1564bf5d">Editorial</a>
         </h3>
     </div>
-    <div class="row" ng-cloak>
-        <h4 class="inner-headings">
-            <a data-ng-href="#!/articles/{{editorial._id}}" class="pict"><span data-ng-bind="editorial.title"></span></a>
-        </h4>
-        <a data-ng-href="#!/articles/{{editorial._id}}">
-            <img class="img-renponsive" data-ng-src="{{editorial.img}}" alt="">
-        </a>
+    <div class="row sidebar" ng-cloak>
+        <div class="side-article">
+            <a data-ng-href="#!/articles/{{editorial._id}}">
+                <img class="img-renponsive article-tile" data-ng-src="{{editorial.img}}" alt="">
+            </a>
+            <h3 class="inner-headings">
+                <a data-ng-href="#!/articles/{{editorial._id}}">
+                    <span data-ng-bind="editorial.title"></span>
+                </a>
+            </h3>
+            <h4 class="articleMeta">
+                <a href="#!/authors/{{editorial.user._id}}">
+                    <span data-ng-bind="editorial.user.displayName"></span>
+                </a>
+            </h4>
+            <p><span data-ng-bind="relevant.summary"></span></p>
+        </div>
     </div>
     <div class="separator_horizontal"></div>
     <!-- Picturesque -->
@@ -21,12 +31,14 @@
             <a href="#!/tags/5480ff9899fe89ea050c0cba">Πικτουρέσκ</a>
         </h3>
     </div>
-    <div class="row" ng-cloak>
-        <h4 class="inner-headings">
-            <a data-ng-href="#!/articles/{{picturesque._id}}" class="pict"><span data-ng-bind="picturesque.title"></span></a>
-        </h4>
-        <a data-ng-href="#!/articles/{{picturesque._id}}">
-            <img class="img-renponsive" data-ng-src="{{picturesque.img}}" alt="">
-        </a>
+    <div class="row sidebar" ng-cloak>
+        <div class="side-article">
+            <a data-ng-href="#!/articles/{{picturesque._id}}">
+                <img class="img-renponsive" data-ng-src="{{picturesque.img}}" alt="">
+            </a>
+            <h3 class="inner-headings">
+                <a data-ng-href="#!/articles/{{picturesque._id}}"><span data-ng-bind="picturesque.title"></span></a>
+            </h3>
+        </div>
     </div>
 </div>

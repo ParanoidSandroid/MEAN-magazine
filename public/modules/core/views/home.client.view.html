@@ -19,14 +19,14 @@
             <h2>Πρόσφατα Άρθρα</h2>
         </div>
         <div ng-repeat="recent in recents">
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6">
                 <div class="article-cell" ng-cloak>
                     <a data-ng-href="#!/articles/{{recent._id}}">
                         <img class="img-responsive article-tile" ng-src="{{recent.img}}" alt="">
                     </a>
                     <h3 class="inner-headings"><a data-ng-href="#!/articles/{{recent._id}}">{{recent.title}}</a></h3>
                     <div class="inline" ng-repeat="tag in recent.tags">
-                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;"></a>
+                        <a class="btn btn-xs btn-info" data-ng-href="#!/tags/{{tag._id}}" data-ng-bind="tag.name" style="color:white;font-size:95%"></a>
                     </div>
                     <p>
                         <h5 class="articleMeta">
