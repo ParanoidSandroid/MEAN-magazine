@@ -15,7 +15,7 @@
             Published on
             <span data-ng-bind="article.created | date:'fullDate'"></span>
             <a data-ng-href="#!/authors/{{article.user._id}}">
-                <img class="img-responsive" width="60" data-ng-src="{{article.user.img}}">
+                <img class="img-responsive" width="60" height="60" data-ng-src="{{article.user.img}}">
                 <span data-ng-bind="article.user.displayName"></span>
             </a>
         </em>
