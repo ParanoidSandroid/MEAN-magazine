@@ -32,6 +32,6 @@
     <fb:like data-ng-href="http://skra-punk.com/#!/articles/{{article._id}}" layout="standard" action="like" show_faces="true" share="true"></fb:like>
     <div class="lead" data-ng-bind-html="trustAsHtml(article.content)" id="content-article" style="padding:25px;border-radius:20px;"></div>
     <div class="">
-        <fb:comments href="http://skra-punk.com/#!/articles/{{article._id}}" numposts="5" colorscheme="light"></fb:comments>
+        <fb:comments data-ng-href="http://skra-punk.com/#!/articles/{{article._id}}" numposts="5" colorscheme="light"></fb:comments>
     </div>
 </section>
