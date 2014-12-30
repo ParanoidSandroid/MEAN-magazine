@@ -18,16 +18,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 
 // Because we are relying on automatic page tracking, we need to inject
 // Analytics al least once in our application.
-angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', '$rootScope', '$window', function(Analytics, $rootScope, $window) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(['Analytics', '$rootScope', function(Analytics, $rootScope) {
     $rootScope.title = 'site';
     $rootScope.image = 'modules/core/img/brand/zymbra.jpg';
     $rootScope.contentUrl = '/';
     $rootScope.articleTitle = '';
     $rootScope.articleDescription = '';
-
-    $rootScope.$on('$stateChangeStart', function() {
-        $window.FB.XFBML.parse();
-    });
 }]);
 
 //Then define the init function for starting up the application
