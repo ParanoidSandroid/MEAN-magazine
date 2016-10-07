@@ -1,4 +1,0 @@
-Skra Punk
-=========
-
-Web Magazine
