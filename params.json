@@ -1,0 +1,6 @@
+{
+  "name": "Mean-magazine",
+  "tagline": "Web Magazine",
+  "body": "# Online Magazine\r\n\r\nThis project was initially developed for the online magazine skra-punk.com.\r\nThe base we used was [Mean.js](https://github.com/meanjs/mean).\r\nFrom there we included:\r\n- Multi-user support\r\n- Administration panel, complete with WYSIWYG html [editor](ckeditor.com)\r\n- Different views based on account access rights\r\n- RESTful API\r\n- Facebook support\r\n- SEO\r\n\r\n## Technologies used\r\n- [AngularJS](https://angularjs.org)\r\n- [NodeJS](https://nodejs.org)\r\n- [MongoDB](https://mongodb.org)\r\n- [Express](expressjs.com)\r\n\r\nAlso we used [Grunt](gruntjs.com) as our developer tool to automate\r\ncommon tasks (watching files for changes, loading configuration, minifying assets, live reloading).\r\n\r\n## How to run\r\n### Clone with git\r\n```bash\r\ngit clone https://github.com/ParanoidSandroid/MEAN-magazine.git\r\n```\r\n### Then inside the project folder\r\nInstall dependencies with npm:\r\n```bash\r\nnpm install\r\n```\r\nBuild project with:\r\n```bash\r\ngrunt build\r\n```\r\nRun with:\r\n```bash\r\ngrunt\r\n```\r\nor\r\n```bash\r\nnpm run start\r\n```\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
